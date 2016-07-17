@@ -17,7 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WebSocketActivity"></activity>
+        <activity android:name=".WebSocketActivity" />
+        <activity android:name=".HttpConnection" />
+        <activity
+            android:name=".HttpConnect2"
+            android:label="@string/title_activity_http_connect2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".HttpConnection2"></activity>
     </application>
 
 </manifest>

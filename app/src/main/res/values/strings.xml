@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SPA</string>
+    <string name="title_activity_http_connect2">HttpConnect2</string>
 </resources>

@@ -33,6 +33,9 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     Button btnSend;
+    Button btnSend1;
+    Button btnSend2;
+
     /* github test */
 
     @Override
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btnSend = (Button)findViewById(R.id.btnNext);
+        btnSend1 = (Button)findViewById(R.id.btnNext1);
+        btnSend2 = (Button)findViewById(R.id.btnNext2);
 
         btnSend.setOnClickListener(new View.OnClickListener() {
 
@@ -48,6 +53,26 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 Intent intent = new Intent(getBaseContext(),WebSocketActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnSend1.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Intent intent = new Intent(getBaseContext(),HttpConnection.class);
+                startActivity(intent);
+            }
+        });
+
+        btnSend2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Intent intent = new Intent(getBaseContext(),HttpConnection2.class);
                 startActivity(intent);
             }
         });
