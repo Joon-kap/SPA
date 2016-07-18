@@ -83,7 +83,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/select_time_spinner"
         android:layout_gravity="center_horizontal"
-        android:spinnerMode="dropdown" />
+        android:spinnerMode="dropdown"
+        android:entries="@array/select_time"/>
 
     <Button
         android:layout_width="wrap_content"
