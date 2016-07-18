@@ -2,20 +2,15 @@ package com.cmu.ajou.spa;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.http.params.HttpConnectionParams;
-import org.java_websocket.WebSocket;
-import org.java_websocket.handshake.ClientHandshake;
-import org.java_websocket.server.WebSocketServer;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,47 +24,25 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+/**
+ * Created by bryan on 2016-07-18.
+ */
 
-
-public class MainActivity extends AppCompatActivity {
+public class confirm_reservation extends AppCompatActivity {
 
     Button btnSend;
 
-    EditText etMessage;
-    TextView tvRecvData;
-
-    /*
-    private EditText etMessage;
-    private TextView tvRecvData;
-    */
-
-    /* github test */
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.confirm_reservation);
 
         new HTTPRequestTest().execute();
 
-        btnSend = (Button)findViewById(R.id.btnNext);
+        btnSend = (Button)findViewById(R.id.gateOpenBtn);
 
-        tvRecvData = (TextView) findViewById(R.id.textAvailable);
-     //   btnSend1 = (Button)findViewById(R.id.btnNext1);
-     //   btnSend2 = (Button)findViewById(R.id.btnNext2);
-
-      //  tvRecvData.setText("aaaaaaaa");
 
         btnSend.setOnClickListener(new View.OnClickListener() {
 
@@ -90,17 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        btnSend2.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Intent intent = new Intent(getBaseContext(),HttpConnection2.class);
-                startActivity(intent);
-            }
-        });
-        */
+*/
     }
 
     private class HTTPRequestTest extends AsyncTask<Void,Void,String> {
@@ -130,8 +93,7 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
 
             MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-            parameters.add("first_name", "shim");
-            parameters.add("last_name", "sha sha");
+            parameters.add("pIdentifier", "Client-P_IDENTIFIER");
 
             HttpHeaders headers = new HttpHeaders();
 
@@ -165,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             s = s.replace("(","[");
             s = s.replace(")","]");
 
-            String str = "[{'1':'AAAA'}]";
+            //String str = "[{'1':'AAAA'}]";
             Log.d("TEST", s);
             Log.d("TEST", "test");
 
@@ -174,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONArray jarray = new JSONArray(s);
                 for(int i=0; i < jarray.length(); i++){
                     JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
-                    address = jObject.getString("2");
+                    address = jObject.getString("pEnterTime") + jObject.getString("1");
                     Log.d("TEST", address);
                 }
 
@@ -182,14 +144,11 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            Toast.makeText(getApplicationContext(), "Parsed Data : " + s, Toast.LENGTH_SHORT).show();
-
-            tvRecvData.setText(address);
+            Toast.makeText(getApplicationContext(), "Parsed Data : " + address, Toast.LENGTH_SHORT).show();
 
         }
 
     }
 
-
-
 }
+

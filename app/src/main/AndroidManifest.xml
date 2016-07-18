@@ -24,8 +24,7 @@
         <activity android:name=".WebSocketActivity" />
         <activity android:name=".HttpConnection" />
         <activity
-            android:name=".HttpConnection2"
-            android:label="@string/title_activity_http_connect2"
+            android:name=".confirm_reservation"
             android:theme="@style/AppTheme.NoActionBar" />
         </application>
 
