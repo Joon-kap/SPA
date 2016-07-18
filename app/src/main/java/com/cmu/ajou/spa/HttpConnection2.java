@@ -40,6 +40,8 @@ public class HttpConnection2 extends AppCompatActivity  {
         tx_txt = (TextView) findViewById(R.id.tx_str);
         et_str = (EditText) findViewById(R.id.et_str);
         etMessage = (EditText)findViewById(R.id.et_message);
+
+
     }
 
     public void mOnClick(View v){
@@ -61,72 +63,56 @@ public class HttpConnection2 extends AppCompatActivity  {
             */
         }
 
-        public String[][] jsonParserList(String pRecvServerPage){
-            //Log.i("");
-            Log.i("From Server: ",pRecvServerPage);
-            pRecvServerPage = "[{'1':'AAAA'}]";
-//            String str_r = pRecvServerPage.substring(5,pRecvServerPage.length());
+        public String jsonParserList(String pRecvServerPage){
+            Log.d("From Server: ",pRecvServerPage);
+            String rcv_data_1 = pRecvServerPage;
+            String rcv_data_2 = rcv_data_1.replace("null","");
+            String rcv_data_3 = rcv_data_2.replace("(","[");
+            String rcv_data_4 = rcv_data_3.replace(")","]");
+            String rcv_data = rcv_data_4;
+
+
+            //pRecvServerPage Should Be "[{'1':'AAAA'}]"
+            /*
+            String rcv_data_1 = pRecvServerPage.substring(11,23);
+            String rcv_data_2 = "[";
+            String rcv_data_3 = "]";
+            String rcv_data = rcv_data_2 + rcv_data_1 + rcv_data_3;
+            */
+            //pRecvServerPage = null({"1":"AAAA"})
+            String address=null;
 
             try {
-                //pRecvServerPage, Parsing -> parsedData
-
-
-                JSONObject json = new JSONObject(pRecvServerPage);
-                JSONArray jArr = json.getJSONArray("1");
-
-                // 받아온 pRecvServerPage를 분석하는 부분
-                String[] jsonName = {"AAAA"};
-                String[][] parsedData = new String[jArr.length()][jsonName.length];
-
-                for (int i = 0; i < jArr.length(); i++) {
-                    json = jArr.getJSONObject(i);
-                    if(json != null) {
-                        for(int j = 0; j < jsonName.length; j++) {
-                            parsedData[i][j] = json.getString(jsonName[j]);
-                        }
-                    }
+                JSONArray jarray = new JSONArray(rcv_data);
+                for(int i = 0; i < jarray.length(); i++){
+                    JSONObject jObject = jarray.getJSONObject(i);
+                    address = jObject.getString("1");
+                    Log.d("TEST",address);
                 }
-                Log.i("From Server: ",pRecvServerPage);
-
-                // 분해 된 데이터를 확인하기 위한 부분
-                for(int i=0; i<parsedData.length; i++){
-                    Log.i("JSON을 분석한 데이터 "+i+" : ", parsedData[i][0]);
-                }
-
-                    return parsedData;
-
+                return address;
             } catch (JSONException e) {
                 e.printStackTrace();
                 return null;
             }
+
         }
-
-
-
         @Override
         protected String doInBackground(Void... params) {
-
             MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-            parameters.add("first_name", "shim");
-            parameters.add("last_name", "sha sha");
-
+            parameters.add("Phone_Number", "010-7149-3357");
+            parameters.add("Reservation_Time", "11:30");
             HttpHeaders headers = new HttpHeaders();
-
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parameters, headers);
-
             RestTemplate restTemplate = new RestTemplate();
-
             List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
             messageConverters.add(new FormHttpMessageConverter());
             messageConverters.add(new StringHttpMessageConverter());
             restTemplate.setMessageConverters(messageConverters);
-
             String result = restTemplate.postForObject(url, parameters, String.class);
 
             return result;
         }
-
         @Override
         protected void onPostExecute(String s) {
             //사이클 프로그래스바 종료
@@ -134,24 +120,9 @@ public class HttpConnection2 extends AppCompatActivity  {
             dismissProgressDialog();
             */
             //String sMessage = etMessage.getText().toString();   //보내는 메세지 수신
-
             //String[][] parsedData = jsonParserList(s);
-
-            String str = "[{'1':'AAAA'}]";
-            try {
-                JSONArray jarray = new JSONArray(str);
-                for(int i=0; i < jarray.length(); i++){
-                    JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
-                    String address = jObject.getString("1");
-                    Log.d("TEST", address);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            Toast.makeText(getApplicationContext(), "Parsed Data : " + s, Toast.LENGTH_SHORT).show();
-            //parseredData.show();
+            String k=jsonParserList(s);
+            Toast.makeText(getApplicationContext(), "Parsed Data : " + k, Toast.LENGTH_SHORT).show();
         }
     }
 

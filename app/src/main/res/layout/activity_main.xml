@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="010-7149-3357"
-                android:id="@+id/send_message"/>
+                android:id="@+id/sendPhonenumber"/>
 
         </LinearLayout>
 
@@ -104,19 +104,18 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Next"
+                android:text="WebSocket"
                 android:id="@+id/btnNext"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Next"
                 android:id="@+id/btnNext1"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Next"
+                android:text="HTTPCONECTION2"
                 android:id="@+id/btnNext2"/>
 
 
