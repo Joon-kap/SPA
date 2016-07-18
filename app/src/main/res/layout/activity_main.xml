@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    - 가능한 주차 수 입력 받아서 표시하고 경우에 따라서 색깔 다르게 표시(초록/빨강)
+    - 핸드폰 번호는 읽어와서 표시
+    - spinner 연결하여 30분 단위로 6개 표시
+    - next page는 카드 선택 페이지
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
 
@@ -9,48 +15,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.cmu.ajou.spa.MainActivity">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Home"/>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Sure-Park System"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Back"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
+    tools:context="com.cmu.ajou.spa.MainActivity"
+    android:gravity="center_vertical"
+    android:weightSum="1">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,63 +32,64 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="There Are 1/4 Available Parking Spot."/>
+                android:text="There Are 0/4 Available Parking Spot."
+                android:id="@+id/textAvailable"
+                android:textAlignment="center"
+                android:textColor="#4c4c49" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Are You Making a RESERVATION?"/>
+                android:text="Are You Making a RESERVATION?"
+                android:textColor="#4c4c49"
+                android:textAlignment="center" />
 
         </LinearLayout>
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:baselineAligned="false">
 
             <EditText
-                android:layout_width="match_parent"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:text="010-7149-3357"
-                android:id="@+id/sendPhonenumber"/>
+                android:text="123-456-7890"
+                android:id="@+id/send_message"
+                android:textColor="#a39d95"
+                android:layout_gravity="center_vertical"
+                android:textAlignment="center" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="When You Will Arrive?"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="WebSocket"
-                android:id="@+id/btnNext"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnNext1"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="HTTPCONECTION2"
-                android:id="@+id/btnNext2"/>
-
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <Spinner
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/select_time_spinner"
+        android:layout_gravity="center_horizontal"
+        android:spinnerMode="dropdown" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        android:id="@+id/btnNext"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>
