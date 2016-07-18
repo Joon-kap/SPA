@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -35,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
     Button btnSend;
     Button btnSend1;
     Button btnSend2;
+
+    /*
+    private EditText etMessage;
+    private TextView tvRecvData;
+    */
 
     /* github test */
 

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cmu.ajou.spa">
 
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="8" />
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -20,10 +24,9 @@
         <activity android:name=".WebSocketActivity" />
         <activity android:name=".HttpConnection" />
         <activity
-            android:name=".HttpConnect2"
+            android:name=".HttpConnection2"
             android:label="@string/title_activity_http_connect2"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".HttpConnection2"></activity>
-    </application>
+        </application>
 
 </manifest>

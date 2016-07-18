@@ -30,4 +30,10 @@
         android:textSize="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/et_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="30"/>
 </LinearLayout>
