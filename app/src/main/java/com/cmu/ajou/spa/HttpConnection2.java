@@ -125,5 +125,4 @@ public class HttpConnection2 extends AppCompatActivity  {
             Toast.makeText(getApplicationContext(), "Parsed Data : " + k, Toast.LENGTH_SHORT).show();
         }
     }
-
 }
