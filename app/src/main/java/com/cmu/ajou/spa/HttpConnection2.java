@@ -49,7 +49,7 @@ public class HttpConnection2 extends AppCompatActivity  {
     private class Post extends AsyncTask<Void,Void,String> {
 
         //R.string.base_uri => http://192.168.1.102:8080
-        final String url = "http://128.237.216.182:8080/surepark_server/rev/test.do";
+        final String url = "http://128.237.201.22:8080/surepark_server/rev/test.do";
 
         @Override
         protected void onPreExecute() {
@@ -123,6 +123,7 @@ public class HttpConnection2 extends AppCompatActivity  {
             restTemplate.setMessageConverters(messageConverters);
 
             String result = restTemplate.postForObject(url, parameters, String.class);
+            Log.d("TEST", result);
 
             return result;
         }
@@ -137,6 +138,7 @@ public class HttpConnection2 extends AppCompatActivity  {
 
             //String[][] parsedData = jsonParserList(s);
 
+
             String str = "[{'1':'AAAA'}]";
             try {
                 JSONArray jarray = new JSONArray(str);
@@ -144,6 +146,7 @@ public class HttpConnection2 extends AppCompatActivity  {
                     JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
                     String address = jObject.getString("1");
                     Log.d("TEST", address);
+                    Log.d("TEST1", address);
                 }
 
             } catch (JSONException e) {
@@ -151,6 +154,8 @@ public class HttpConnection2 extends AppCompatActivity  {
             }
 
             Toast.makeText(getApplicationContext(), "Parsed Data : " + s, Toast.LENGTH_SHORT).show();
+            Log.d("RESULT", s);
+            Log.d("RESULT", "result");
             //parseredData.show();
         }
     }
