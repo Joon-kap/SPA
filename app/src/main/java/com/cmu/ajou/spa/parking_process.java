@@ -34,6 +34,7 @@ public class parking_process extends AppCompatActivity {
     Button btnSend;
     TextView tvRecvData_1;
     TextView tvRecvData_2;
+    String attempt = null;
     //TextView ReservationTime;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,22 @@ public class parking_process extends AppCompatActivity {
         tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
         //tvRecvData_2 = (TextView) findViewById(R.id.textAvailable_2);
 
-        new HTTPRequestTest().execute();
+
+        for(int i=0; i<100; i++){
+            if(attempt==null){
+                new HTTPRequestTest().execute();
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            else{
+                break;
+            }
+
+        }
+
 
         btnSend = (Button)findViewById(R.id.waitBtn);
         //ReservationTime = (EditText) findViewById(R.id.ReservationTime);
@@ -131,6 +147,7 @@ public class parking_process extends AppCompatActivity {
             String address_2 = null;
             String address_3 = null;
             String address_4 = null;
+            String address_5 = null;
 
             try {
                 JSONArray jarray = new JSONArray(s);
@@ -140,21 +157,26 @@ public class parking_process extends AppCompatActivity {
                     address_2 = jObject.getString("pServationTime");
                     address_3 = jObject.getString("pEnterTime");
                     address_4 = jObject.getString("pSpotNumber");
+                    address_5 = jObject.getString("pIdentifier");
                     Log.d("TEST_1", address_1);
                     Log.d("TEST_2", address_2);
                     Log.d("TEST_3", address_3);
                     Log.d("TEST_4", address_4);
+                    Log.d("TEST_5", address_5);
+
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
+            attempt = address_5;
             //Test
             Toast.makeText(getApplicationContext(), "pPresentParkinglotStatus Data : " + address_1, Toast.LENGTH_SHORT).show();
             Toast.makeText(getApplicationContext(), "pServationTime Data : " + address_2, Toast.LENGTH_SHORT).show();
             Toast.makeText(getApplicationContext(), "pEnterTime Data : " + address_3, Toast.LENGTH_SHORT).show();
             Toast.makeText(getApplicationContext(), "pSpotNumber Data : " + address_4, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "pIdentifier Data : " + address_5, Toast.LENGTH_SHORT).show();
 
             //tvRecvData_1.setText(address_2);
             //tvRecvData_2.setText(address_4);
