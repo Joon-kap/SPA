@@ -35,11 +35,16 @@ import java.util.List;
 public class confirm_reservation extends AppCompatActivity {
 
     Button btnSend;
+    TextView tvRecvData_1;
+    TextView tvRecvData_2;
     //TextView ReservationTime;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm_reservation);
+
+        tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
+        //tvRecvData_2 = (TextView) findViewById(R.id.textAvailable_2);
 
         new HTTPRequestTest().execute();
 
@@ -164,6 +169,8 @@ public class confirm_reservation extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "pEnterTime Data : " + address_3, Toast.LENGTH_SHORT).show();
             Toast.makeText(getApplicationContext(), "pSpotNumber Data : " + address_4, Toast.LENGTH_SHORT).show();
 
+            tvRecvData_1.setText(address_2);
+            //tvRecvData_2.setText(address_4);
 
         }
 
