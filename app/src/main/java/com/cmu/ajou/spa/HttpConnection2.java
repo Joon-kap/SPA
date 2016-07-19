@@ -49,7 +49,7 @@ public class HttpConnection2 extends AppCompatActivity  {
     private class Post extends AsyncTask<Void,Void,String> {
 
         //R.string.base_uri => http://192.168.1.102:8080
-        final String url = "http://128.237.194.119:8080/surepark_server/rev/test.do";
+        final String url = "http://128.237.130.142:8080/surepark_server/rev/test.do";
 
         @Override
         protected void onPreExecute() {
@@ -159,5 +159,4 @@ public class HttpConnection2 extends AppCompatActivity  {
             //parseredData.show();
         }
     }
-
 }
