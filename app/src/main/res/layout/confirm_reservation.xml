@@ -1,122 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cmu.ajou.spa.confirm_reservation">
+    android:gravity="center">
 
-    //Reservation Time and Spot Numbwer
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="5">
+        android:text="Your Reservation is completed."
+        android:textColor="#4c4c49" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        >
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your Reservation is Completed!"
-            android:gravity="center"
-            android:layout_weight="1"/>
-
-        //Insert Reservation Time
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Your Reservation Time: "
-            android:gravity="center"
-            android:layout_weight="1"/>
+            android:text="Your Reservation Time is "
+            android:textColor="#4c4c49" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
             android:id="@+id/textAvailable_1"
-            android:textAlignment="center"
             android:textColor="#4c4c49" />
 
-        //Space
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:gravity="center"
-            android:layout_weight="1">
+
         </LinearLayout>
 
-
-    </LinearLayout>
-
-    //Spot Number
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="2">
+        android:text="If you are infront of the gate.\nPlease press the open button."
+        android:textColor="#4c4c49" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="If You Are Infront Of The Gate,"
-            android:gravity="center"
-            android:layout_weight="1"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Please Press the Open Button, Below!"
-            android:gravity="center"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
-
-    //Picture Button
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="3">
+        android:text="\n"
+        android:id="@+id/textView"
+        android:textColor="#4c4c49" />
 
-        //Gate Open Button
-        <Button
-            android:id="@+id/gateOpenBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:gravity="center"
-            android:drawableTop="@drawable/open_button_icon"
-            android:text="Open"
-            android:layout_weight="2"
-            />
+    <Button
+        android:id="@+id/gateOpenBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:gravity="center"
+        android:drawableTop="@drawable/open_button_icon"
 
-        //Space
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:gravity="center"
-            android:layout_weight="2">
-        </LinearLayout>
+        android:text="Click for Next Step!"
+        />
 
-        //Cancel Button
-        <Button
-            android:id="@+id/cancelReservationBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Cancel"
-            android:layout_weight="1"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="\n\n"
+        android:id="@+id/textView2" />
 
-        //Space
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:gravity="center"
-            android:layout_weight="2">
-        </LinearLayout>
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:id="@+id/button2" />
 
-    </LinearLayout>
 </LinearLayout>

@@ -42,7 +42,7 @@ public class confirm_reservation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm_reservation);
-
+//
         tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
         //tvRecvData_2 = (TextView) findViewById(R.id.textAvailable_2);
 

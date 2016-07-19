@@ -37,13 +37,17 @@ public class parking_process extends AppCompatActivity {
     //TextView ReservationTime;
 
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parking_process);
 
-        btnSend = (Button) findViewById(R.id.waitBtn);
-        //ReservationTime = (EditText) findViewById(R.id.ReservationTime);
+        tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
+        //tvRecvData_2 = (TextView) findViewById(R.id.textAvailable_2);
 
         new HTTPRequestTest().execute();
+
+        btnSend = (Button)findViewById(R.id.waitBtn);
+        //ReservationTime = (EditText) findViewById(R.id.ReservationTime);
 
 
         btnSend.setOnClickListener(new View.OnClickListener() {
@@ -57,18 +61,6 @@ public class parking_process extends AppCompatActivity {
             }
         });
 
-
-
-
-        btnSend.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Intent intent = new Intent(getBaseContext(), payment_process.class);
-                startActivity(intent);
-            }
-        });
     }
     private class HTTPRequestTest extends AsyncTask<Void,Void,String> {
 
