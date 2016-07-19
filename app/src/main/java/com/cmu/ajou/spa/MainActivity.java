@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
     private class HTTPRequestTest extends AsyncTask<Void,Void,String> {
 
-        private String url = "http://128.237.130.142:8080/surepark_server/rev/test.do";
+        private String url = "http://172.16.31.244:8080/surepark_server/rev/test.do";
 
         public HTTPRequestTest(String url) {
             this.url = url;

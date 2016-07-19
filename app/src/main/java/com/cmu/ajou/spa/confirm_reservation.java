@@ -68,7 +68,7 @@ public class confirm_reservation extends AppCompatActivity {
 
     private class HTTPRequestTest extends AsyncTask<Void,Void,String> {
 
-        private String url = "http://128.237.130.142:8080/surepark_server/rev/test.do";
+        private String url = "http://172.16.31.244:8080/surepark_server/rev/test.do";
 
         public HTTPRequestTest(String url) {
             this.url = url;
@@ -131,20 +131,35 @@ public class confirm_reservation extends AppCompatActivity {
             Log.d("TEST", s);
             Log.d("TEST", "test");
 
-            String address = null;
+            String address_1 = null;
+            String address_2 = null;
+            String address_3 = null;
+            String address_4 = null;
+
             try {
                 JSONArray jarray = new JSONArray(s);
                 for(int i=0; i < jarray.length(); i++){
                     JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
-                    address = jObject.getString("pEnterTime") + jObject.getString("1");
-                    Log.d("TEST", address);
+                    address_1 = jObject.getString("pPresentParkinglotStatus");
+                    address_2 = jObject.getString("pServationTime");
+                    address_3 = jObject.getString("pEnterTime");
+                    address_4 = jObject.getString("pSpotNumber");
+                    Log.d("TEST_1", address_1);
+                    Log.d("TEST_2", address_2);
+                    Log.d("TEST_3", address_3);
+                    Log.d("TEST_4", address_4);
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            Toast.makeText(getApplicationContext(), "Parsed Data : " + address, Toast.LENGTH_SHORT).show();
+            //Test
+            Toast.makeText(getApplicationContext(), "pPresentParkinglotStatus Data : " + address_1, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "pServationTime Data : " + address_2, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "pEnterTime Data : " + address_3, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "pSpotNumber Data : " + address_4, Toast.LENGTH_SHORT).show();
+
 
         }
 
