@@ -26,6 +26,14 @@
         <activity
             android:name=".confirm_reservation"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+        android:name=".payment_process"
+        android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".parking_process"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         </application>
 
 </manifest>

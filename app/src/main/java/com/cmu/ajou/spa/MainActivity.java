@@ -63,13 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
         new HTTPRequestTest().execute();
 
-        btnSend = (Button)findViewById(R.id.btnNext);
-
         tvRecvData = (TextView) findViewById(R.id.textAvailable);
-     //   btnSend1 = (Button)findViewById(R.id.btnNext1);
-     //   btnSend2 = (Button)findViewById(R.id.btnNext2);
 
-      //  tvRecvData.setText("aaaaaaaa");
+        btnSend = (Button)findViewById(R.id.btnNext);
 
         btnSend.setOnClickListener(new View.OnClickListener() {
 
@@ -174,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONArray jarray = new JSONArray(s);
                 for(int i=0; i < jarray.length(); i++){
                     JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
-                    address = jObject.getString("2");
+                    address = jObject.getString("Test_1");
                     Log.d("TEST", address);
                 }
 

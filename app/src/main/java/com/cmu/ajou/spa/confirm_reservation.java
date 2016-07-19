@@ -23,6 +23,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ import java.util.List;
 public class confirm_reservation extends AppCompatActivity {
 
     Button btnSend;
+    //TextView ReservationTime;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,7 @@ public class confirm_reservation extends AppCompatActivity {
         new HTTPRequestTest().execute();
 
         btnSend = (Button)findViewById(R.id.gateOpenBtn);
+        //ReservationTime = (EditText) findViewById(R.id.ReservationTime);
 
 
         btnSend.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +52,8 @@ public class confirm_reservation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(getBaseContext(),confirm_reservation.class);
+                //Intent intent = new Intent(getBaseContext(),payment_process.class);
+                Intent intent = new Intent(getBaseContext(),parking_process.class);
                 startActivity(intent);
             }
         });
