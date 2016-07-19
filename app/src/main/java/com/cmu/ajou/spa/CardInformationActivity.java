@@ -44,10 +44,13 @@ public class CardInformationActivity extends AppCompatActivity {
         final TextView cardMY = (TextView) findViewById(R.id.editTextMY);
         final TextView cardCSV = (TextView) findViewById(R.id.editTextCSV);
 
+        final HTTPRequestTest req = new HTTPRequestTest(time, phoneNumber);
+
         Button btnNext = (Button)findViewById(R.id.buttonNext);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                req.execute();
                // RegisterReservation rr = new RegisterReservation();
 //                String status = "wait";
                 Intent intent = new Intent(CardInformationActivity.this, OpenEnterGate.class);
@@ -67,7 +70,7 @@ public class CardInformationActivity extends AppCompatActivity {
 
     private class HTTPRequestTest extends AsyncTask<Void,Void,String> {
 
-        private String url = "http://172.16.31.160:8080/surepark_server/rev/test.do";
+        private String url = ResourceClass.server_ip + "/surepark_server/rev/reservation.do";
         private String identi = "";
         private String time = "";
         private String phoneNumber = "";
@@ -90,8 +93,8 @@ public class CardInformationActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
 
             MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-            parameters.add("time", time);
-            parameters.add("phoneNumber", phoneNumber);
+            parameters.add("pReserTime", time);
+            parameters.add("pReserTelno", phoneNumber);
 
             HttpHeaders headers = new HttpHeaders();
 
@@ -133,7 +136,7 @@ public class CardInformationActivity extends AppCompatActivity {
                 JSONArray jarray = new JSONArray(s);
                 for(int i=0; i < jarray.length(); i++){
                     JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
-                    identifier = jObject.getString("pidentifier");
+                    identifier = jObject.getString("pIdentifier");
                     Log.d("TEST", identifier);
                 }
 
