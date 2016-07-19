@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    reservation time 받아와서 보여주기
+    open button 눌리면 주차 대기 화면
+    cancel button 눌리면 취소 확인 팝업
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Reservation is completed.\nYour Reservation Time is 12:00.\n\nIf you are infront of the gate.\nPlease press the open button."
+        android:id="@+id/textView"
+        android:textColor="#4c4c49" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="\n"
+        android:id="@+id/textView"
+        android:textColor="#4c4c49" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="enter"
+        android:id="@+id/buttonEnter"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="\n\n"
+        android:id="@+id/textView2" />
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:id="@+id/button2" />
+
+</LinearLayout>

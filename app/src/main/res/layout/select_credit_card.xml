@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    - 카드 목록는 table layout 안에 구성
+    - 기기 내에 있는 카드 정보를 불러와서 table로 보여주기(동적)
+    - 최대 등록 가능 카드 갯수 한 개
+    - 따라서 table은 최대 2열
+    - next page는 라디오 버튼 선택에 따라서 카드 등록 페이지 또는 결제 컨펌 팝업
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Credit Card for Payment."
+        android:id="@+id/textView"
+        android:textColor="#4c4c49" />
+
+    <TableLayout
+        android:layout_width="267dp"
+        android:layout_height="wrap_content">
+
+        <RadioGroup
+            android:id="@+id/radioGroupCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <RadioButton
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="New Card"
+                android:id="@+id/radioButtonNC"
+                android:checked="false"
+                android:textAlignment="center"
+                android:layout_gravity="center" />
+        </TableRow>
+
+
+        </RadioGroup>
+    </TableLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        android:id="@+id/buttonNext"
+        android:singleLine="true" />
+</LinearLayout>

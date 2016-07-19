@@ -2,7 +2,7 @@
 <!--
     - 가능한 주차 수 입력 받아서 표시하고 경우에 따라서 색깔 다르게 표시(초록/빨강)
     - 핸드폰 번호는 읽어와서 표시
-    - spinner 연결하여 30분 단위로 6개 표시
+    - spinner 연결하여 30분 단위로 6개 표시 -> 서버에서 시간을 받아오기
     - next page는 카드 선택 페이지
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -51,11 +51,11 @@
             android:layout_gravity="center_horizontal"
             android:baselineAligned="false">
 
-            <EditText
+            <TextView
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:text="123-456-7890"
-                android:id="@+id/send_message"
+                android:id="@+id/textPhoneNumber"
                 android:textColor="#a39d95"
                 android:layout_gravity="center_vertical"
                 android:textAlignment="center" />
@@ -77,6 +77,13 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="When you will arrive?"
+        android:textColor="#4c4c49"
+        android:textAlignment="center" />
 
     <Spinner
         android:layout_width="250dp"

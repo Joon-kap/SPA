@@ -8,6 +8,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,6 +31,10 @@
             android:name=".HttpConnection2"
             android:label="@string/title_activity_http_connect2"
             android:theme="@style/AppTheme.NoActionBar" />
-        </application>
+        <activity android:name=".SelectCardActivity" />
+        <activity android:name=".CardNumberActivity" />
+        <activity android:name=".CardInformationActivity" />
+        <activity android:name=".OpenEnterGate"></activity>
+    </application>
 
 </manifest>

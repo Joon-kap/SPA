@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    - 카드 정보를 입력하면 자동으로 **** **** **** **** 포맷으로 쓰여지기
+    - 포맷에 맞지 않은 경우 next button 클릭시 경고창 띄우고 화면이 넘어가지 않도록 함
+    - 월/년 포맷 **/**
+    - 월/년 4자리 이상 입력 금지
+    - CSV 3자리 이상 입력 금지
+    - next button 클릭시 포맷에 맞지 않으면 경고창 후 다음 페이지 이동 불가
+    - next page 카드 선택 화면
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.cmu.ajou.spa.MainActivity"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter Your Credit Card Number."
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textColor="#4c4c49" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextCardNumber"
+            android:text="1234 5678 9012 3456"
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter Your Credit Card Infomation."
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textColor="#4c4c49" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <EditText
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextMY"
+                android:text="M/Y"
+                android:textColor="#a39d95"
+                android:textAlignment="center" />
+
+            <EditText
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextCSV"
+                android:textColor="#a39d95"
+                android:textAlignment="center"
+                android:text="CSV" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:id="@+id/btnNext"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
     EditText etMessage;
     TextView tvRecvData;
+    TextView textPhoneNumber;
+
     /*
     private EditText etMessage;
     private TextView tvRecvData;
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnSend = (Button)findViewById(R.id.btnNext);
         tvRecvData = (TextView) findViewById(R.id.textAvailable);
+        textPhoneNumber = (TextView) findViewById(R.id.textPhoneNumber) ;
      //   btnSend1 = (Button)findViewById(R.id.btnNext1);
      //   btnSend2 = (Button)findViewById(R.id.btnNext2);
 
@@ -95,7 +98,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(getBaseContext(),HttpConnection2.class);
+     //           Intent intent = new Intent(getBaseContext(),HttpConnection2.class);
+                Intent intent = new Intent(MainActivity.this, SelectCardActivity.class);
+                intent.putExtra("time", "201607201830");
+                intent.putExtra("phoneNumber", textPhoneNumber.getText());
                 startActivity(intent);
             }
         });
@@ -124,7 +130,8 @@ public class MainActivity extends AppCompatActivity {
 
     private class HTTPRequestTest extends AsyncTask<Void,Void,String> {
 
-        private String url = "http://128.237.194.119:8080/surepark_server/rev/test.do";
+        private String url = "http://172.16.31.160:8080/surepark_server/rev/test.do";
+
 
         public HTTPRequestTest(String url) {
             this.url = url;
@@ -184,17 +191,17 @@ public class MainActivity extends AppCompatActivity {
             s = s.replace("(","[");
             s = s.replace(")","]");
 
-            String str = "[{'1':'AAAA'}]";
+            //String str = "[{'1':'AAAA'}]";
             Log.d("TEST", s);
             Log.d("TEST", "test");
 
-            String address = null;
+            String identifier = null;
             try {
                 JSONArray jarray = new JSONArray(s);
                 for(int i=0; i < jarray.length(); i++){
                     JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
-                    address = jObject.getString("2");
-                    Log.d("TEST", address);
+                    identifier = jObject.getString("pidentifier");
+                    Log.d("TEST", identifier);
                 }
 
             } catch (JSONException e) {
@@ -203,7 +210,9 @@ public class MainActivity extends AppCompatActivity {
 
             Toast.makeText(getApplicationContext(), "Parsed Data : " + s, Toast.LENGTH_SHORT).show();
 
-            tvRecvData.setText(address);
+            //tvRecvData.setText(address);
+            //서버에서 받아온 정보를 text로 표시(남은 주차 칸 수)
+            //tvRecvData.setText(identifier);
 
         }
 
