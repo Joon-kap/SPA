@@ -39,6 +39,7 @@ public class Confirm_reservation extends AppCompatActivity {
     String time = null;
     //TextView ReservationTime;
     String LOG = "Confirm_reservation";
+    String status = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,11 +72,13 @@ public class Confirm_reservation extends AppCompatActivity {
                 Log.d(LOG, "setOnClickListener identifier : " + identifier);
                // Intent intent = new Intent(getBaseContext(),Parking_process.class);
                // startActivity(intent);
+                new HTTPRequestTest().execute();
 
-                Intent intent = new Intent(Confirm_reservation.this, Parking_process.class);
-                intent.putExtra("identifier", identifier);
+                new CheckIdentifier().start();
 
-                startActivity(intent);
+
+
+               // startActivity(intent);
             }
         });
 /*
@@ -89,6 +92,34 @@ public class Confirm_reservation extends AppCompatActivity {
             }
         });
 */
+    }
+
+    private class CheckIdentifier extends Thread{
+
+        public void run() {
+            while(true){
+                if(status == null){
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    continue;
+                }
+                Log.d(LOG, "run status :" + status);
+                if(status.equals("FAIL")){
+                    Log.d(LOG, "====================run status :" + status);
+//                    Toast.makeText(getApplicationContext(), "Identification FAIL", Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent = new Intent(Confirm_reservation.this, Parking_process.class);
+                    intent.putExtra("identifier", identifier);
+                    startActivity(intent);
+                }
+
+                break;
+
+            }
+        }
     }
 
     private class HTTPRequestTest extends AsyncTask<Void,Void,String> {
@@ -156,13 +187,11 @@ public class Confirm_reservation extends AppCompatActivity {
             Log.d("TEST", s);
             Log.d("TEST", "test");
 
-            String address_1 = null;
-            String address_2 = null;
-            String address_3 = null;
-            String address_4 = null;
+            //status = null;
 
             try {
                 JSONArray jarray = new JSONArray(s);
+                /*
                 for(int i=0; i < jarray.length(); i++){
                     JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
                     address_1 = jObject.getString("pPresentParkinglotStatus");
@@ -173,19 +202,20 @@ public class Confirm_reservation extends AppCompatActivity {
                     Log.d("TEST_2", address_2);
                     Log.d("TEST_3", address_3);
                     Log.d("TEST_4", address_4);
-                }
+                }*/
+
+                JSONObject jObject = jarray.getJSONObject(0);  // JSONObject 추출
+                status = jObject.getString("STATUS");
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            //Test
-            Toast.makeText(getApplicationContext(), "pPresentParkinglotStatus Data : " + address_1, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(), "pServationTime Data : " + address_2, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(), "pEnterTime Data : " + address_3, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(), "pSpotNumber Data : " + address_4, Toast.LENGTH_SHORT).show();
 
-            tvRecvData_1.setText(address_2);
+            //Test
+            Toast.makeText(getApplicationContext(), "identify : " + status, Toast.LENGTH_SHORT).show();
+
+           // tvRecvData_1.setText(address_2);
             //tvRecvData_2.setText(address_4);
 
         }
