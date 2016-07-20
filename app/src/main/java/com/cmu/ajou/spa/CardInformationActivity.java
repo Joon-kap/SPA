@@ -29,15 +29,17 @@ import static android.support.v4.app.ActivityCompat.startActivity;
 
 public class CardInformationActivity extends AppCompatActivity {
 
-    private String identifier = "";
+    private String identifier = null;
+    String time = null;
 
+    String LOG = "CardInformationActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_information);
 
         Intent intent = getIntent();
-        final String time = intent.getStringExtra("time");
+        time = intent.getStringExtra("time");
         final String phoneNumber = intent.getStringExtra("phoneNumber");
 
         final TextView cardNumber = (TextView) findViewById(R.id.editTextCardNumber);
@@ -53,19 +55,49 @@ public class CardInformationActivity extends AppCompatActivity {
                 req.execute();
                // RegisterReservation rr = new RegisterReservation();
 //                String status = "wait";
-                Intent intent = new Intent(CardInformationActivity.this, OpenEnterGate.class);
+                //Intent intent = new Intent(CardInformationActivity.this, Confirm_reservation.class);
               //  int result = rr.RegisterReservation(time, phoneNumber, intent);
 //cardMY.getText().toString(), cardCSV.getText().toString()
+                new CheckIdentifier().start();
+
 
                 if(identifier == null) {
 
                 } else {
-                    intent.putExtra("time", time);
-
-                    startActivity(intent);
                 }
             }
         });
+    }
+
+    private void nextActivity(){
+        if(identifier == null){
+
+        }
+
+    }
+
+    private class CheckIdentifier extends Thread{
+
+        public void run() {
+            while(true){
+                if(identifier == null){
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    continue;
+                }
+                Log.d(LOG, "run identifier :" + identifier);
+                Intent intent = new Intent(CardInformationActivity.this, Confirm_reservation.class);
+                intent.putExtra("time", time);
+                intent.putExtra("identifier", identifier);
+
+                startActivity(intent);
+                break;
+
+            }
+        }
     }
 
     private class HTTPRequestTest extends AsyncTask<Void,Void,String> {
@@ -137,7 +169,8 @@ public class CardInformationActivity extends AppCompatActivity {
                 for(int i=0; i < jarray.length(); i++){
                     JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
                     identifier = jObject.getString("pIdentifier");
-                    Log.d("TEST", identifier);
+
+                    Log.d(LOG, "onPostExecute identifier :" + identifier);
                 }
 
             } catch (JSONException e) {

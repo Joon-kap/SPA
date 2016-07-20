@@ -42,7 +42,7 @@ public class payment_process extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_process);
 
-        new HTTPRequestTest().execute();
+        //new HTTPRequestTest().execute();
 
         tvRecvData = (TextView) findViewById(R.id.textAvailable);
 

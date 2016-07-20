@@ -23,19 +23,32 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by bryan on 2016-07-18.
  */
-public class parking_process extends AppCompatActivity {
+public class Parking_process extends AppCompatActivity {
 
     Button btnSend;
     TextView tvRecvData_1;
     TextView tvRecvData_2;
     String attempt = null;
+    String identifier = null;
+    RequestThread rt = null;
+    boolean runThread = true;
     //TextView ReservationTime;
+
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.d("TEST", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa========");
+        runThread = false;
+
+    }
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -45,7 +58,7 @@ public class parking_process extends AppCompatActivity {
         tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
         //tvRecvData_2 = (TextView) findViewById(R.id.textAvailable_2);
 
-
+/*
         for(int i=0; i<100; i++){
             if(attempt==null){
                 new HTTPRequestTest().execute();
@@ -60,8 +73,13 @@ public class parking_process extends AppCompatActivity {
             }
 
         }
+*/
+        Intent intent = getIntent();
+        identifier = intent.getStringExtra("identifier");
 
-
+        rt = new RequestThread();
+       // rt.setDaemon(true);
+        rt.start();
         btnSend = (Button)findViewById(R.id.waitBtn);
         //ReservationTime = (EditText) findViewById(R.id.ReservationTime);
 
@@ -78,9 +96,27 @@ public class parking_process extends AppCompatActivity {
         });
 
     }
+
+    private class RequestThread extends Thread{
+
+        public void run() {
+            while(runThread){
+                new HTTPRequestTest().execute();
+
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                Log.d("TEST", "Thead is run");
+            }
+        }
+    }
+
     private class HTTPRequestTest extends AsyncTask<Void,Void,String> {
 
-        private String url = "http://172.16.31.244:8080/surepark_server/rev/test.do";
+        private String url = ResourceClass.server_ip+"/surepark_server/rev/currentstatus.do";
 
         public HTTPRequestTest(String url) {
             this.url = url;
@@ -105,7 +141,7 @@ public class parking_process extends AppCompatActivity {
         protected String doInBackground(Void... params) {
 
             MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-            parameters.add("pIdentifier", "Client-P_IDENTIFIER");
+            parameters.add("pIdentifier", identifier);
 
             HttpHeaders headers = new HttpHeaders();
 
@@ -143,41 +179,52 @@ public class parking_process extends AppCompatActivity {
             Log.d("TEST", s);
             Log.d("TEST", "test");
 
-            String address_1 = null;
-            String address_2 = null;
-            String address_3 = null;
-            String address_4 = null;
-            String address_5 = null;
+            String spotNum = null;
+            String enterTime = null;
+
 
             try {
                 JSONArray jarray = new JSONArray(s);
+                /*
                 for(int i=0; i < jarray.length(); i++){
                     JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
-                    address_1 = jObject.getString("pPresentParkinglotStatus");
-                    address_2 = jObject.getString("pServationTime");
-                    address_3 = jObject.getString("pEnterTime");
-                    address_4 = jObject.getString("pSpotNumber");
-                    address_5 = jObject.getString("pIdentifier");
-                    Log.d("TEST_1", address_1);
-                    Log.d("TEST_2", address_2);
-                    Log.d("TEST_3", address_3);
-                    Log.d("TEST_4", address_4);
-                    Log.d("TEST_5", address_5);
+                    spotNum = jObject.getString("P_SPOT_NUMBER");
+                    enterTime = jObject.getString("P_ENTER_TIME");
+                    Log.d("TEST_1", spotNum);
+                    Log.d("TEST_2", enterTime);
 
-                }
+
+                }*/
+
+
+                JSONObject jObject = jarray.getJSONObject(0); // JSONObject 추출
+                spotNum = jObject.getString("P_SPOT_NUMBER");
+                enterTime = jObject.getString("P_ENTER_TIME");
+                Log.d("TEST_1", spotNum);
+                Log.d("TEST_2", enterTime);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            attempt = address_5;
+            if(spotNum != null && enterTime != null){
+                Intent intent = new Intent(Parking_process.this, payment_process.class);
+                intent.putExtra("spotNum", spotNum);
+                intent.putExtra("enterTime", enterTime);
+                startActivity(intent);
+                runThread = false;
+            }
+
+           // attempt = address_5;
             //Test
-            Toast.makeText(getApplicationContext(), "pPresentParkinglotStatus Data : " + address_1, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(), "pServationTime Data : " + address_2, Toast.LENGTH_SHORT).show();
+
+            Toast.makeText(getApplicationContext(), "pPresentParkinglotStatus Data : " + spotNum, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "pServationTime Data : " + enterTime, Toast.LENGTH_SHORT).show();
+            /*
             Toast.makeText(getApplicationContext(), "pEnterTime Data : " + address_3, Toast.LENGTH_SHORT).show();
             Toast.makeText(getApplicationContext(), "pSpotNumber Data : " + address_4, Toast.LENGTH_SHORT).show();
             Toast.makeText(getApplicationContext(), "pIdentifier Data : " + address_5, Toast.LENGTH_SHORT).show();
-
+*/
             //tvRecvData_1.setText(address_2);
             //tvRecvData_2.setText(address_4);
 

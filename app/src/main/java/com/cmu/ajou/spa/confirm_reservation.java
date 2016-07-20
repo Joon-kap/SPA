@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +22,6 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +30,15 @@ import java.util.List;
  * Created by bryan on 2016-07-18.
  */
 
-public class confirm_reservation extends AppCompatActivity {
+public class Confirm_reservation extends AppCompatActivity {
 
     Button btnSend;
     TextView tvRecvData_1;
     TextView tvRecvData_2;
+    String identifier = null;
+    String time = null;
     //TextView ReservationTime;
+    String LOG = "Confirm_reservation";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,14 @@ public class confirm_reservation extends AppCompatActivity {
 //
         tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
         //tvRecvData_2 = (TextView) findViewById(R.id.textAvailable_2);
+
+        Intent intent = getIntent();
+        time = intent.getStringExtra("time");
+        identifier = intent.getStringExtra("identifier");
+
+        Log.d(LOG, "time onCreate: " + time);
+        Log.d(LOG, "identifier onCreate : " + identifier);
+
 
         new HTTPRequestTest().execute();
 
@@ -58,7 +67,14 @@ public class confirm_reservation extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 //Intent intent = new Intent(getBaseContext(),payment_process.class);
-                Intent intent = new Intent(getBaseContext(),parking_process.class);
+                Log.d(LOG, "btn==================");
+                Log.d(LOG, "setOnClickListener identifier : " + identifier);
+               // Intent intent = new Intent(getBaseContext(),Parking_process.class);
+               // startActivity(intent);
+
+                Intent intent = new Intent(Confirm_reservation.this, Parking_process.class);
+                intent.putExtra("identifier", identifier);
+
                 startActivity(intent);
             }
         });
@@ -77,7 +93,7 @@ public class confirm_reservation extends AppCompatActivity {
 
     private class HTTPRequestTest extends AsyncTask<Void,Void,String> {
 
-        private String url = "http://172.16.31.244:8080/surepark_server/rev/test.do";
+        private String url = ResourceClass.server_ip + "/surepark_server/rev/identify.do";
 
         public HTTPRequestTest(String url) {
             this.url = url;
@@ -102,7 +118,7 @@ public class confirm_reservation extends AppCompatActivity {
         protected String doInBackground(Void... params) {
 
             MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-            parameters.add("pIdentifier", "Client-P_IDENTIFIER");
+            parameters.add("pIdentifier", identifier);
 
             HttpHeaders headers = new HttpHeaders();
 
