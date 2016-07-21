@@ -16,33 +16,69 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.cmu.ajou.spa.MainActivity"
-    android:gravity="center_vertical"
-    android:weightSum="1">
+    android:gravity="center">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_weight="0.6"
+        android:layout_gravity="center"
+        android:gravity="center">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="There Are 0/4 Available Parking Spot."
-                android:id="@+id/textAvailable"
-                android:textAlignment="center"
-                android:textColor="#4c4c49" />
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="There Are "
+                    android:id="@+id/textThereAre"
+                    android:textAlignment="center"
+                    android:textColor="#4c4c49"
+                    android:textSize="@dimen/abc_text_size_medium_material" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0/4"
+                    android:id="@+id/textAvailable"
+                    android:textAlignment="center"
+                    android:textColor="#00b050"
+                    android:textSize="@dimen/abc_text_size_medium_material"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" available Parking Spot."
+                    android:id="@+id/textParkingSpot"
+                    android:textAlignment="center"
+                    android:textColor="#4c4c49"
+                    android:textSize="@dimen/abc_text_size_medium_material" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Are You Making a RESERVATION?"
                 android:textColor="#4c4c49"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textSize="@dimen/abc_text_size_medium_material" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textPlain1"
+                android:layout_gravity="center_horizontal" />
 
         </LinearLayout>
         <LinearLayout
@@ -58,7 +94,8 @@
                 android:id="@+id/textPhoneNumber"
                 android:textColor="#a39d95"
                 android:layout_gravity="center_vertical"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textSize="@dimen/abc_text_size_medium_material" />
 
         </LinearLayout>
 
@@ -75,29 +112,45 @@
             android:layout_gravity="center_horizontal">
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textPlain2"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="When you will arrive?"
+            android:textColor="#4c4c49"
+            android:textAlignment="center"
+            android:textSize="@dimen/abc_text_size_medium_material" />
+
+        <Spinner
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/select_time_spinner"
+            android:layout_gravity="center_horizontal"
+            android:spinnerMode="dropdown"
+            android:entries="@array/select_time"/>
 
     </LinearLayout>
 
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="When you will arrive?"
-        android:textColor="#4c4c49"
-        android:textAlignment="center" />
+        android:layout_weight="0.4"
+        android:gravity="top"
+        android:layout_gravity="center">
 
-    <Spinner
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/select_time_spinner"
-        android:layout_gravity="center_horizontal"
-        android:spinnerMode="dropdown"
-        android:entries="@array/select_time"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/next"
-        android:id="@+id/btnNext"
-        android:layout_gravity="center_horizontal" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next"
+            android:id="@+id/btnNext"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
 
 </LinearLayout>

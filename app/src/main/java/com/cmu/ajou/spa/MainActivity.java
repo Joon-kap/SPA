@@ -1,6 +1,7 @@
 package com.cmu.ajou.spa;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textPhoneNumber;
 
     Spinner spinner;
-
+    int next = 0;
 
     /*
     private EditText etMessage;
@@ -107,26 +108,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-     //           Intent intent = new Intent(getBaseContext(),HttpConnection2.class);
-                Intent intent = new Intent(MainActivity.this, SelectCardActivity.class);
-                String text = spinner.getSelectedItem().toString();
-                Log.d("TEST", text);
-                text = text.replace(":","");
-                Log.d("TEST", text);
+                if(next == 1) {
+                    //           Intent intent = new Intent(getBaseContext(),HttpConnection2.class);
+                    Intent intent = new Intent(MainActivity.this, SelectCardActivity.class);
+                    String text = spinner.getSelectedItem().toString();
+                    Log.d("TEST", text);
+                    text = text.replace(":", "");
+                    Log.d("TEST", text);
 
-                long now = System.currentTimeMillis();
-                Date date = new Date(now);
-                SimpleDateFormat sdfNow = new SimpleDateFormat("yyyyMMdd");
-                String strNow = sdfNow.format(date);
-                Log.d("TEST", strNow);
-                strNow += text;
+                    long now = System.currentTimeMillis();
+                    Date date = new Date(now);
+                    SimpleDateFormat sdfNow = new SimpleDateFormat("yyyyMMdd");
+                    String strNow = sdfNow.format(date);
+                    Log.d("TEST", strNow);
+                    strNow += text;
 
 
-                String phone = textPhoneNumber.getText().toString();
-                phone = phone.replace("-","");
-                intent.putExtra("time", strNow);
-                intent.putExtra("phoneNumber", phone);
-                startActivity(intent);
+                    String phone = textPhoneNumber.getText().toString();
+                    phone = phone.replace("-", "");
+                    intent.putExtra("time", strNow);
+                    intent.putExtra("phoneNumber", phone);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Now there is no parking spot is avaliable.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 /*
@@ -246,10 +251,20 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            Toast.makeText(getApplicationContext(), "Parsed Data : " + s, Toast.LENGTH_SHORT).show();
+        //    Toast.makeText(getApplicationContext(), "Parsed Data : " + s, Toast.LENGTH_SHORT).show();
 
+            tvRecvData.setText(avail+"/"+total);
 
-            tvRecvData.setText("There Are "+avail+"/"+total+" Available Parking Spot.");
+            String strRed = "#FF0000";
+            String strGreen = "#00B050";
+
+            if(avail.equals("0")) {
+                tvRecvData.setTextColor(Color.parseColor(strRed));
+                next = 0;
+            } else {
+                tvRecvData.setTextColor(Color.parseColor(strGreen));
+                next = 1;
+            }
             //서버에서 받아온 정보를 text로 표시(남은 주차 칸 수)
             //tvRecvData.setText(identifier);
 

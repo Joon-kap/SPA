@@ -28,15 +28,12 @@
         <activity android:name=".WebSocketActivity" />
         <activity android:name=".HttpConnection" />
         <activity
-            android:name=".Confirm_reservation"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".Confirm_reservation" />
         <activity
-        android:name=".payment_process"
-        android:theme="@style/AppTheme.NoActionBar" />
+        android:name=".payment_process" />
 
         <activity
-            android:name=".Parking_process"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".Parking_process" />
         <activity android:name=".SelectCardActivity" />
         <activity android:name=".CardNumberActivity" />
         <activity android:name=".CardInformationActivity" />
