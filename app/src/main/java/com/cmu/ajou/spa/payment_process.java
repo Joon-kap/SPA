@@ -57,7 +57,8 @@ public class payment_process extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(getBaseContext(), payment_process.class);
+        //        Intent intent = new Intent(getBaseContext(), payment_process.class);
+                Intent intent = new Intent(payment_process.this, OpenExitGate.class);
                 startActivity(intent);
             }
         });

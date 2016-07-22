@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.cmu.ajou.spa.MainActivity"
     android:gravity="center">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,45 +19,40 @@
         android:gravity="center"
         >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="You finish your paring at "
-        android:textColor="#4c4c49"
-        android:textAlignment="center"
-        android:textSize="@dimen/abc_text_size_medium_material" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Payment is completed.\n"
+            android:textColor="#4c4c49"
+            android:textSize="@dimen/abc_text_size_medium_material" />
+
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/textAvailable"
-        android:textColor="#4c4c49" />
-        </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="From now on the payment\nfor parkng will be charged.\n\nIf you are going to go out,\nplease press the payment button."
+        android:text="If you are infront of the gate.\nPlease press the open button."
         android:textColor="#4c4c49"
-        android:textAlignment="center"
         android:textSize="@dimen/abc_text_size_medium_material" />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="\n"
+        android:id="@+id/textView"
         android:textColor="#4c4c49" />
 
     <Button
-        android:id="@+id/paymentBtn"
+        android:id="@+id/gateOpenBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
         android:gravity="center"
-        android:drawableTop="@drawable/pay_button_icon"
+        android:drawableTop="@drawable/open_button_icon"
+
         android:text="Click for Next Step!"
         android:background="#00000000" />
-
 
 </LinearLayout>

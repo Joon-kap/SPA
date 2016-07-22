@@ -104,15 +104,15 @@ public class Confirm_reservation extends AppCompatActivity {
                     }
                     continue;
                 }
-                Log.d(LOG, "run status :" + status);
-                if(status.equals("FAIL")){
+                Log.d(LOG, "run status :" + status); //// 다음 페이지로 넘어가기 위해서 임시로 지운 부분
+/*                if(status.equals("FAIL")){
                     Log.d(LOG, "====================run status :" + status);
 //                    Toast.makeText(getApplicationContext(), "Identification FAIL", Toast.LENGTH_SHORT).show();
                 }else{
-                    Intent intent = new Intent(Confirm_reservation.this, Parking_process.class);
+*/                    Intent intent = new Intent(Confirm_reservation.this, Parking_process.class);
                     intent.putExtra("identifier", identifier);
                     startActivity(intent);
-                }
+//                }
 
                 break;
 
