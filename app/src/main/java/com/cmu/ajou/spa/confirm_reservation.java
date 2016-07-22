@@ -39,7 +39,7 @@ public class Confirm_reservation extends AppCompatActivity {
     String time = null;
     //TextView ReservationTime;
     String LOG = "Confirm_reservation";
-    String status = null;
+    String status = "wait";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +55,6 @@ public class Confirm_reservation extends AppCompatActivity {
         Log.d(LOG, "time onCreate: " + time);
         Log.d(LOG, "identifier onCreate : " + identifier);
 
-
-        new HTTPRequestTest().execute();
 
         btnSend = (Button)findViewById(R.id.gateOpenBtn);
         //ReservationTime = (EditText) findViewById(R.id.ReservationTime);
@@ -98,7 +96,7 @@ public class Confirm_reservation extends AppCompatActivity {
 
         public void run() {
             while(true){
-                if(status == null){
+                if(status.equals("wait")){
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
