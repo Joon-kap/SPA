@@ -28,7 +28,7 @@
         <activity android:name=".WebSocketActivity" />
         <activity android:name=".HttpConnection" />
         <activity android:name=".Confirm_reservation" />
-        <activity android:name=".payment_process" />
+        <activity android:name=".Payment_process" />
         <activity android:name=".Parking_process" />
         <activity android:name=".SelectCardActivity" />
         <activity android:name=".CardNumberActivity" />

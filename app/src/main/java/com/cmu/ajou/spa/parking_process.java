@@ -23,9 +23,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -75,7 +73,7 @@ public class Parking_process extends AppCompatActivity {
         }
 */
         Intent intent = getIntent();
-        identifier = intent.getStringExtra("identifier");
+        identifier = intent.getStringExtra("pIdentifier");
 
         rt = new RequestThread();
        // rt.setDaemon(true);
@@ -89,8 +87,8 @@ public class Parking_process extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                //Intent intent = new Intent(getBaseContext(),payment_process.class);
-                Intent intent = new Intent(getBaseContext(),payment_process.class);
+                //Intent intent = new Intent(getBaseContext(),Payment_process.class);
+                Intent intent = new Intent(getBaseContext(),Payment_process.class);
                 startActivity(intent);
             }
         });
@@ -104,7 +102,7 @@ public class Parking_process extends AppCompatActivity {
                 new HTTPRequestTest().execute();
 
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -208,9 +206,10 @@ public class Parking_process extends AppCompatActivity {
             }
 
             if(spotNum != null && enterTime != null){
-                Intent intent = new Intent(Parking_process.this, payment_process.class);
+                Intent intent = new Intent(Parking_process.this, Payment_process.class);
                 intent.putExtra("spotNum", spotNum);
                 intent.putExtra("enterTime", enterTime);
+                intent.putExtra("pIdentifier", identifier);
                 startActivity(intent);
                 runThread = false;
             }

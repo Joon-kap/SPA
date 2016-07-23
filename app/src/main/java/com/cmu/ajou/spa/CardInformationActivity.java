@@ -91,7 +91,7 @@ public class CardInformationActivity extends AppCompatActivity {
                 Log.d(LOG, "run identifier :" + identifier);
                 Intent intent = new Intent(CardInformationActivity.this, Confirm_reservation.class);
                 intent.putExtra("time", time);
-                intent.putExtra("identifier", identifier);
+                intent.putExtra("pIdentifier", identifier);
 
                 startActivity(intent);
                 break;

@@ -50,7 +50,7 @@ public class Confirm_reservation extends AppCompatActivity {
 
         Intent intent = getIntent();
         time = intent.getStringExtra("time");
-        identifier = intent.getStringExtra("identifier");
+        identifier = intent.getStringExtra("pIdentifier");
 
         Log.d(LOG, "time onCreate: " + time);
         Log.d(LOG, "identifier onCreate : " + identifier);
@@ -65,7 +65,7 @@ public class Confirm_reservation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                //Intent intent = new Intent(getBaseContext(),payment_process.class);
+                //Intent intent = new Intent(getBaseContext(),Payment_process.class);
                 Log.d(LOG, "btn==================");
                 Log.d(LOG, "setOnClickListener identifier : " + identifier);
                // Intent intent = new Intent(getBaseContext(),Parking_process.class);
@@ -110,7 +110,7 @@ public class Confirm_reservation extends AppCompatActivity {
 //                    Toast.makeText(getApplicationContext(), "Identification FAIL", Toast.LENGTH_SHORT).show();
                 }else{
 */                    Intent intent = new Intent(Confirm_reservation.this, Parking_process.class);
-                    intent.putExtra("identifier", identifier);
+                    intent.putExtra("pIdentifier", identifier);
                     startActivity(intent);
 //                }
 

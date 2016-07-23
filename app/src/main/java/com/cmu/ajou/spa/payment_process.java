@@ -29,14 +29,27 @@ import java.util.List;
 /**
  * Created by bryan on 2016-07-18.
  */
-public class payment_process extends AppCompatActivity {
+public class Payment_process extends AppCompatActivity {
 
     TextView tvRecvData_1;
     TextView tvRecvData;
+    boolean runThread = true;
+    RequestThread rt = null;
+    String identifier = null;
+    String exitProceedUrl = ResourceClass.server_ip + "/surepark_server/rev/exitProceed.do";
+    String exitGateOpenUrl = ResourceClass.server_ip + "/surepark_server/rev/exitIdentify.do";
 
 
     Button btnSend;
     //TextView ReservationTime;
+
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.d("TEST", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa========");
+        runThread = false;
+
+    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,15 +64,24 @@ public class payment_process extends AppCompatActivity {
         tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
         //ReservationTime = (EditText) findViewById(R.id.ReservationTime);
 
+        Intent intent = getIntent();
+        identifier = intent.getStringExtra("pIdentifier");
+
+        rt = new RequestThread();
+        // rt.setDaemon(true);
+        rt.start();
+
 
         btnSend.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-        //        Intent intent = new Intent(getBaseContext(), payment_process.class);
-                Intent intent = new Intent(payment_process.this, OpenExitGate.class);
-                startActivity(intent);
+        //        Intent intent = new Intent(getBaseContext(), Payment_process.class);
+
+                Log.d("TEST", "Button!!!!!!!!!!!!!!!1");
+                new HTTPRequestTest(exitGateOpenUrl, true).execute();
+
             }
         });
 
@@ -67,10 +89,13 @@ public class payment_process extends AppCompatActivity {
 
     private class HTTPRequestTest extends AsyncTask<Void,Void,String> {
 
-        private String url = "http://172.16.31.244:8080/surepark_server/rev/test.do";
+        private String url = null;
+        private boolean type2 = false;
+        //= ResourceClass.server_ip + "/surepark_server/rev/exitProceed.do";
 
-        public HTTPRequestTest(String url) {
+        public HTTPRequestTest(String url, boolean type2) {
             this.url = url;
+            this.type2 = type2;
         }
 
         public HTTPRequestTest() {
@@ -92,8 +117,10 @@ public class payment_process extends AppCompatActivity {
         protected String doInBackground(Void... params) {
 
             MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-            parameters.add("first_name", "shim");
-            parameters.add("last_name", "sha sha");
+            Log.d("TEST", identifier);
+
+            parameters.add("pIdentifier", identifier);
+
 
             HttpHeaders headers = new HttpHeaders();
 
@@ -131,7 +158,7 @@ public class payment_process extends AppCompatActivity {
             Log.d("TEST", s);
             Log.d("TEST", "test");
 
-            String address_1 = null;
+            String status = null;
             String address_2 = null;
             String address_3 = null;
             String address_4 = null;
@@ -140,25 +167,27 @@ public class payment_process extends AppCompatActivity {
                 JSONArray jarray = new JSONArray(s);
                 for(int i=0; i < jarray.length(); i++){
                     JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
-                    address_1 = jObject.getString("pPresentParkinglotStatus");
-                    address_2 = jObject.getString("pServationTime");
-                    address_3 = jObject.getString("pEnterTime");
-                    address_4 = jObject.getString("pSpotNumber");
-                    Log.d("TEST_1", address_1);
-                    Log.d("TEST_2", address_2);
-                    Log.d("TEST_3", address_3);
-                    Log.d("TEST_4", address_4);
+                    status = jObject.getString("STATUS");
+
+                    Log.d("TEST_1", status);
+
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
+            if(status.equals("SUCCESS")){
+                runThread = false;
+                if(type2){
+                    Intent intent = new Intent(Payment_process.this, OpenExitGate.class);
+                    startActivity(intent);
+                }
+            }
+
             //Test
-            Toast.makeText(getApplicationContext(), "pPresentParkinglotStatus Data : " + address_1, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(), "pServationTime Data : " + address_2, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(), "pEnterTime Data : " + address_3, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(), "pSpotNumber Data : " + address_4, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "stauts : " + status, Toast.LENGTH_SHORT).show();
+
 
             //tvRecvData_1.setText(address_2);
             //tvRecvData_2.setText(address_4);
@@ -168,6 +197,23 @@ public class payment_process extends AppCompatActivity {
 
         }
 
+    }
+
+    private class RequestThread extends Thread{
+
+        public void run() {
+            while(runThread){
+                new HTTPRequestTest(exitProceedUrl,false).execute();
+
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                Log.d("TEST", "Thead is run");
+            }
+        }
     }
 
 

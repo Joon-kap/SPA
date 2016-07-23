@@ -184,8 +184,6 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
 
             MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-            parameters.add("first_name", "shim");
-            parameters.add("last_name", "sha sha");
 
             HttpHeaders headers = new HttpHeaders();
 
