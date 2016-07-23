@@ -127,13 +127,35 @@
             android:textAlignment="center"
             android:textSize="@dimen/abc_text_size_medium_material" />
 
-        <Spinner
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/select_time_spinner"
-            android:layout_gravity="center_horizontal"
-            android:spinnerMode="dropdown"
-            android:entries="@array/select_time"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/select_date_spinner"
+                android:layout_gravity="center_horizontal"
+                android:spinnerMode="dropdown"
+                android:entries="@array/select_time"/>
+
+            <Spinner
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/select_hour_spinner"
+                android:layout_gravity="center_horizontal"
+                android:spinnerMode="dropdown"
+                android:entries="@array/select_time"/>
+
+            <Spinner
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/select_min_spinner"
+                android:layout_gravity="center_horizontal"
+                android:spinnerMode="dropdown"
+                android:entries="@array/select_time"/>
+        </LinearLayout>
 
     </LinearLayout>
 

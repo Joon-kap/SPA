@@ -11,8 +11,11 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.apache.http.params.HttpConnectionParams;
@@ -59,7 +62,10 @@ public class MainActivity extends AppCompatActivity {
     TextView tvRecvData;
     TextView textPhoneNumber;
 
-    Spinner spinner;
+    Spinner sDate;
+    Spinner sHour;
+    Spinner sMin;
+
     int next = 0;
 
     /*
@@ -70,16 +76,82 @@ public class MainActivity extends AppCompatActivity {
     /* github test */
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sDate = (Spinner)findViewById(R.id.select_date_spinner);
+        sHour = (Spinner)findViewById(R.id.select_hour_spinner);
+        sMin = (Spinner)findViewById(R.id.select_min_spinner);
+
         new HTTPRequestTest().execute();
 
-        Spinner s = (Spinner)findViewById(R.id.select_time_spinner);
-        String time = "";
-        if (s != null) {
-            s.setOnItemSelectedListener(new OnItemSelectedListener() {
+        final Date date = new Date();
+
+        Calendar current = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+        current.setTime(date);
+        end.setTime(date);
+        end.add(Calendar.HOUR, 3);
+        int cMonth = current.get(Calendar.MONTH);
+        final int cDate = current.get(Calendar.DATE);
+        final int cHour = current.get(Calendar.HOUR);
+        int cMin = current.get(Calendar.MINUTE);
+        int eMonth = end.get(Calendar.MONTH);
+        final int eDate = end.get(Calendar.DATE);
+        int eHour = end.get(Calendar.HOUR);
+        int eMin = end.get(Calendar.MINUTE);
+
+
+        if(cHour > 20) {
+            String[] slDate = {String.valueOf(cDate), String.valueOf(eDate)};
+
+            ArrayAdapter<String> dateList;
+            dateList = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, slDate);
+
+            sDate.setAdapter(dateList);
+
+        } else {
+            String[] slDate = {String.valueOf(cDate)};
+
+            ArrayAdapter<String> dateList;
+            dateList = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, slDate);
+
+            sDate.setAdapter(dateList);
+
+        }
+
+        String[] slHour = {String.valueOf(cHour%24), String.valueOf((cHour+1)%24), String.valueOf((cHour+2)%24), String.valueOf((cHour+3)%24)};
+
+        ArrayAdapter<String> hourList;
+        hourList = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, slHour);
+
+        sHour.setAdapter(hourList);
+
+        String[] slMin = new String[60];
+        for(int i = 0; i<60; i++) {
+            slMin[i] = String.valueOf(i);
+        }
+
+        List<String> fMin = new ArrayList<String>();
+        for(int i = cMin; i < 60; i++) {
+            fMin.add(String.valueOf(i));
+        }
+
+        List<String> lMin = new ArrayList<String>();
+        for(int i = 0; i < cMin+1; i++) {
+            lMin.add(String.valueOf(i));
+        }
+
+        ArrayAdapter<String> minList;
+        minList = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, fMin);
+
+        sMin.setAdapter(minList);
+
+
+        if (sDate != null) {
+            sDate.setOnItemSelectedListener(new OnItemSelectedListener() {
+
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     System.out.println(parent.getItemAtPosition(position));
@@ -92,11 +164,10 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
+
         btnSend = (Button)findViewById(R.id.btnNext);
         tvRecvData = (TextView) findViewById(R.id.textAvailable);
-        textPhoneNumber = (TextView) findViewById(R.id.textPhoneNumber) ;
-        spinner = (Spinner)findViewById(R.id.select_time_spinner);
-
+        textPhoneNumber = (TextView) findViewById(R.id.textPhoneNumber);
 
      //   btnSend1 = (Button)findViewById(R.id.btnNext1);
      //   btnSend2 = (Button)findViewById(R.id.btnNext2);
@@ -111,17 +182,17 @@ public class MainActivity extends AppCompatActivity {
                 if(next == 1) {
                     //           Intent intent = new Intent(getBaseContext(),HttpConnection2.class);
                     Intent intent = new Intent(MainActivity.this, SelectCardActivity.class);
-                    String text = spinner.getSelectedItem().toString();
-                    Log.d("TEST", text);
-                    text = text.replace(":", "");
-                    Log.d("TEST", text);
+                //    String text = spinner.getSelectedItem().toString();
+                 //   Log.d("TEST", text);
+                  //  text = text.replace(":", "");
+                  //  Log.d("TEST", text);
 
                     long now = System.currentTimeMillis();
                     Date date = new Date(now);
                     SimpleDateFormat sdfNow = new SimpleDateFormat("yyyyMMdd");
                     String strNow = sdfNow.format(date);
                     Log.d("TEST", strNow);
-                    strNow += text;
+                 //   strNow += text;
 
 
                     String phone = textPhoneNumber.getText().toString();
