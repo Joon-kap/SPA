@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         final int[] positionHour = {0};
         final int[] positionMin = {0};
         System.out.println(3);
-        if(cHour > 20) {
+         if(cHour > 20) {
             String[] slDate = {String.valueOf(cDate), String.valueOf(eDate)};
 
             ArrayAdapter<String> dateList;
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println(parent.getItemAtPosition(position));
                     positionHour[0] = position;
 
-                    if(Integer.valueOf(String.valueOf(parent.getItemAtPosition(position)))<9) {
+                    if(Integer.valueOf(String.valueOf(parent.getItemAtPosition(position)))<9 && Integer.valueOf(String.valueOf(parent.getItemAtPosition(0)))>9) {
                         sDate.setSelection(1);
                     } else {
                         sDate.setSelection(0);
