@@ -55,10 +55,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     Button btnSend;
-    Button btnSend1;
-    Button btnSend2;
 
-    EditText etMessage;
     TextView tvRecvData;
     TextView textPhoneNumber;
 
@@ -93,15 +90,19 @@ public class MainActivity extends AppCompatActivity {
         current.setTime(date);
         end.setTime(date);
         end.add(Calendar.HOUR, 3);
+
+
         int cMonth = current.get(Calendar.MONTH);
         final int cDate = current.get(Calendar.DATE);
-        final int cHour = current.get(Calendar.HOUR);
+        final int cHour = current.get(Calendar.HOUR_OF_DAY);
         int cMin = current.get(Calendar.MINUTE);
         int eMonth = end.get(Calendar.MONTH);
         final int eDate = end.get(Calendar.DATE);
-        int eHour = end.get(Calendar.HOUR);
+        int eHour = end.get(Calendar.HOUR_OF_DAY);
         int eMin = end.get(Calendar.MINUTE);
-
+        final int[] positionDate = {0};
+        final int[] positionHour = {0};
+        final int[] positionMin = {0};
 
         if(cHour > 20) {
             String[] slDate = {String.valueOf(cDate), String.valueOf(eDate)};
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
         sHour.setAdapter(hourList);
 
-        String[] slMin = new String[60];
+        final String[] slMin = new String[60];
         for(int i = 0; i<60; i++) {
             slMin[i] = String.valueOf(i);
         }
@@ -143,10 +144,14 @@ public class MainActivity extends AppCompatActivity {
             lMin.add(String.valueOf(i));
         }
 
-        ArrayAdapter<String> minList;
-        minList = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, fMin);
+        final ArrayAdapter<String> slMinList;
+        final ArrayAdapter<String> fMinList;
+        final ArrayAdapter<String> lMinList;
+        slMinList = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, slMin);
+        fMinList = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, fMin);
+        lMinList = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lMin);
 
-        sMin.setAdapter(minList);
+        sMin.setAdapter(fMinList);
 
 
         if (sDate != null) {
@@ -155,6 +160,68 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     System.out.println(parent.getItemAtPosition(position));
+                    positionDate[0] = position;
+
+                    if(position==0 && Integer.valueOf(String.valueOf(sHour.getItemAtPosition(positionHour[0])))<3) {
+                        sHour.setSelection(0);
+                    } else if(position==1 && Integer.valueOf(String.valueOf(sHour.getItemAtPosition(positionHour[0])))>20) {
+                        if(Integer.valueOf(String.valueOf(sHour.getItemAtPosition(1)))<3) {
+                            sHour.setSelection(1);
+                            sMin.setAdapter(slMinList);
+                        } else if(Integer.valueOf(String.valueOf(sHour.getItemAtPosition(2)))<3) {
+                            sHour.setSelection(2);
+                            sMin.setAdapter(fMinList);
+                        } else if(Integer.valueOf(String.valueOf(sHour.getItemAtPosition(3)))<3) {
+                            sHour.setSelection(3);
+                            sMin.setAdapter(lMinList);
+                        }
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }
+
+        if (sHour != null) {
+            sHour.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    System.out.println(parent.getItemAtPosition(position));
+                    positionHour[0] = position;
+
+                    if(Integer.valueOf(String.valueOf(parent.getItemAtPosition(position)))<9) {
+                        sDate.setSelection(1);
+                    } else {
+                        sDate.setSelection(0);
+                    }
+
+                    if(position == 0) {
+                        sMin.setAdapter(fMinList);
+                    } else if (position == 1) {
+                        sMin.setAdapter(slMinList);
+                    } else if (position == 2) {
+                        sMin.setAdapter(slMinList);
+                    } else if (position == 3) {
+                        sMin.setAdapter(lMinList);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }
+
+        if (sMin != null) {
+            sMin.setOnItemSelectedListener(new OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    positionMin[0] = position;
                 }
 
                 @Override
@@ -169,10 +236,6 @@ public class MainActivity extends AppCompatActivity {
         tvRecvData = (TextView) findViewById(R.id.textAvailable);
         textPhoneNumber = (TextView) findViewById(R.id.textPhoneNumber);
 
-     //   btnSend1 = (Button)findViewById(R.id.btnNext1);
-     //   btnSend2 = (Button)findViewById(R.id.btnNext2);
-
-      //  tvRecvData.setText("aaaaaaaa");
 
         btnSend.setOnClickListener(new View.OnClickListener() {
 
@@ -180,19 +243,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 if(next == 1) {
-                    //           Intent intent = new Intent(getBaseContext(),HttpConnection2.class);
-                    Intent intent = new Intent(MainActivity.this, SelectCardActivity.class);
-                //    String text = spinner.getSelectedItem().toString();
-                 //   Log.d("TEST", text);
-                  //  text = text.replace(":", "");
-                  //  Log.d("TEST", text);
+                    Intent intent = new Intent(MainActivity.this, CardNumberActivity.class);
 
                     long now = System.currentTimeMillis();
                     Date date = new Date(now);
                     SimpleDateFormat sdfNow = new SimpleDateFormat("yyyyMMdd");
                     String strNow = sdfNow.format(date);
                     Log.d("TEST", strNow);
-                 //   strNow += text;
 
 
                     String phone = textPhoneNumber.getText().toString();
