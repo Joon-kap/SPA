@@ -61,7 +61,7 @@ public class Payment_process extends AppCompatActivity {
 
         btnSend = (Button) findViewById(R.id.paymentBtn);
 
-        tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
+    //    tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
         //ReservationTime = (EditText) findViewById(R.id.ReservationTime);
 
         Intent intent = getIntent();

@@ -35,7 +35,8 @@
         <activity android:name=".CardInformationActivity" />
         <activity android:name=".OpenEnterGate" />
         <activity android:name=".OpenExitGate" />
-        <activity android:name=".FinishActivity"></activity>
+        <activity android:name=".FinishActivity" />
+        <activity android:name=".RegisterPopUpActivity" android:theme="@style/Theme.AppCompat.Light.Dialog"/>
     </application>
 
 </manifest>

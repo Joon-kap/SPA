@@ -32,7 +32,7 @@ import java.util.List;
 public class Parking_process extends AppCompatActivity {
 
     Button btnSend;
-    TextView tvRecvData_1;
+    TextView textSpot;
     TextView tvRecvData_2;
     String attempt = null;
     String identifier = null;
@@ -53,7 +53,7 @@ public class Parking_process extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parking_process);
 
-        tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
+        textSpot = (TextView) findViewById(R.id.textSpot);
         //tvRecvData_2 = (TextView) findViewById(R.id.textAvailable_2);
 
 /*
@@ -78,20 +78,7 @@ public class Parking_process extends AppCompatActivity {
         rt = new RequestThread();
        // rt.setDaemon(true);
         rt.start();
-        btnSend = (Button)findViewById(R.id.waitBtn);
-        //ReservationTime = (EditText) findViewById(R.id.ReservationTime);
 
-
-        btnSend.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                //Intent intent = new Intent(getBaseContext(),Payment_process.class);
-                Intent intent = new Intent(getBaseContext(),Payment_process.class);
-                startActivity(intent);
-            }
-        });
 
     }
 
@@ -200,6 +187,7 @@ public class Parking_process extends AppCompatActivity {
                 enterTime = jObject.getString("P_ENTER_TIME");
                 Log.d("TEST_1", spotNum);
                 Log.d("TEST_2", enterTime);
+                textSpot.setText(spotNum);
 
             } catch (JSONException e) {
                 e.printStackTrace();

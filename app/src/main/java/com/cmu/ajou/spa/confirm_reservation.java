@@ -33,10 +33,9 @@ import java.util.List;
 public class Confirm_reservation extends AppCompatActivity {
 
     Button btnSend;
-    TextView tvRecvData_1;
-    TextView tvRecvData_2;
+    TextView textTime;
+
     String identifier = null;
-    String time = null;
     //TextView ReservationTime;
     String LOG = "Confirm_reservation";
     String status = "wait";
@@ -45,14 +44,18 @@ public class Confirm_reservation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm_reservation);
 //
-        tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
+        textTime = (TextView) findViewById(R.id.textTime);
         //tvRecvData_2 = (TextView) findViewById(R.id.textAvailable_2);
 
         Intent intent = getIntent();
-        time = intent.getStringExtra("time");
+        String hour = intent.getStringExtra("hour");
+        String min = intent.getStringExtra("min");
+
         identifier = intent.getStringExtra("pIdentifier");
 
-        Log.d(LOG, "time onCreate: " + time);
+        textTime.setText(hour + ":" + min);
+
+        Log.d(LOG, "time onCreate: " + hour);
         Log.d(LOG, "identifier onCreate : " + identifier);
 
 
