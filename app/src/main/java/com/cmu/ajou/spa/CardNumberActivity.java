@@ -15,12 +15,14 @@ public class CardNumberActivity extends AppCompatActivity {
 
 
         Button btnNext = (Button)findViewById(R.id.buttonNext);
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CardNumberActivity.this, SelectCardActivity.class);
-                startActivity(intent);
-            }
-        });
+        if (btnNext != null) {
+            btnNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(CardNumberActivity.this, SelectCardActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 }

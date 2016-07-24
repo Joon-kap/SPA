@@ -33,24 +33,24 @@
             android:text="Enter Your Credit Card Number."
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
-            android:textColor="#4c4c49" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+            android:textColor="#4c4c49"
+            android:textSize="@dimen/abc_text_size_medium_material" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/editTextCardNumber"
-            android:text="1234 5678 9012 3456"
+            android:hint="1234 5678 9012 3456"
             android:textAlignment="center"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:inputType="phone"/>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textPlan1" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,7 +64,8 @@
             android:text="Enter Your Credit Card Infomation."
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
-            android:textColor="#4c4c49" />
+            android:textColor="#4c4c49"
+            android:textSize="@dimen/abc_text_size_medium_material" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -73,34 +74,35 @@
             android:layout_gravity="center_horizontal">
 
             <EditText
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/editTextMY"
-                android:text="M/Y"
+                android:hint="MM/YY"
                 android:textColor="#a39d95"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:inputType="phone"/>
 
             <EditText
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/editTextCSV"
                 android:textColor="#a39d95"
                 android:textAlignment="center"
-                android:text="CSV" />
+                android:hint="CSV"
+                android:inputType="phone"/>
         </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
+    <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/textPlan2" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next"
-            android:id="@+id/btnNext"/>
-
-    </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:id="@+id/btnNext"/>
 
 </LinearLayout>

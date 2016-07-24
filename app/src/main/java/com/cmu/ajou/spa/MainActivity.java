@@ -81,14 +81,16 @@ public class MainActivity extends AppCompatActivity {
         sHour = (Spinner)findViewById(R.id.select_hour_spinner);
         sMin = (Spinner)findViewById(R.id.select_min_spinner);
 
+        System.out.println(1);
+
         new HTTPRequestTest().execute();
+        System.out.println(2);
+        final Date cal = new Date();
 
-        final Date date = new Date();
-
-        Calendar current = Calendar.getInstance();
-        Calendar end = Calendar.getInstance();
-        current.setTime(date);
-        end.setTime(date);
+        final Calendar current = Calendar.getInstance();
+        final Calendar end = Calendar.getInstance();
+        current.setTime(cal);
+        end.setTime(cal);
         end.add(Calendar.HOUR, 3);
 
 
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         final int[] positionDate = {0};
         final int[] positionHour = {0};
         final int[] positionMin = {0};
-
+        System.out.println(3);
         if(cHour > 20) {
             String[] slDate = {String.valueOf(cDate), String.valueOf(eDate)};
 
@@ -230,13 +232,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
+        System.out.println(4);
 
         btnSend = (Button)findViewById(R.id.btnNext);
         tvRecvData = (TextView) findViewById(R.id.textAvailable);
         textPhoneNumber = (TextView) findViewById(R.id.textPhoneNumber);
 
-
+        System.out.println(5);
         btnSend.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -245,17 +247,30 @@ public class MainActivity extends AppCompatActivity {
                 if(next == 1) {
                     Intent intent = new Intent(MainActivity.this, CardNumberActivity.class);
 
-                    long now = System.currentTimeMillis();
-                    Date date = new Date(now);
-                    SimpleDateFormat sdfNow = new SimpleDateFormat("yyyyMMdd");
-                    String strNow = sdfNow.format(date);
-                    Log.d("TEST", strNow);
-
-
+                    //핸드폰 번호
                     String phone = textPhoneNumber.getText().toString();
                     phone = phone.replace("-", "");
-                    intent.putExtra("time", strNow);
                     intent.putExtra("phoneNumber", phone);
+
+                    int year = current.get(Calendar.YEAR);
+                    int month = current.get(Calendar.MONTH)+1;
+
+                    if(positionDate[0] == 1) {
+                        year = end.get(Calendar.YEAR);
+                        month = end.get(Calendar.MONTH)+1;
+                    }
+
+                    int date = Integer.valueOf(String.valueOf(sDate.getItemAtPosition(positionDate[0])));
+                    int hour = Integer.valueOf(String.valueOf(sHour.getItemAtPosition(positionHour[0])));
+                    int min = Integer.valueOf(String.valueOf(sMin.getItemAtPosition(positionMin[0])));
+
+                    String time = String.format("%02d", year) + String.format("%02d", month) + String.format("%02d", date) + String.format("%02d", hour) + String.format("%02d", min);
+
+                    intent.putExtra("time", time);
+
+                    System.out.println(phone);
+                    System.out.println(time);
+
                     startActivity(intent);
                 } else {
                     Toast.makeText(getApplicationContext(), "Now there is no parking spot is avaliable.", Toast.LENGTH_SHORT).show();
@@ -294,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public HTTPRequestTest() {
-
+            System.out.println(6);
         }
 
 
@@ -310,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-
+            System.out.println(7);
             MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 
             HttpHeaders headers = new HttpHeaders();
@@ -328,8 +343,9 @@ public class MainActivity extends AppCompatActivity {
             String result = restTemplate.postForObject(url, parameters, String.class);
 
             Log.d("TEST", result);
-
+            System.out.println(8);
             return result;
+
         }
 
         @Override
@@ -339,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
             dismissProgressDialog();
             */
             //String sMessage = etMessage.getText().toString();   //보내는 메세지 수신
-
+            System.out.println(9);
             //String[][] parsedData = jsonParserList(s);
             s = s.replace("null","");
             s = s.replace("(","[");
