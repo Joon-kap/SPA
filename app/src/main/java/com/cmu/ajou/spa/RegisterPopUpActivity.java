@@ -30,11 +30,7 @@ public class RegisterPopUpActivity extends AppCompatActivity {
 
         final Intent intent = getIntent();
         final String phone = intent.getStringExtra("phoneNumber");
-        final String iYear = intent.getStringExtra("year");
-        final String iMonth = intent.getStringExtra("month");
-        final String iDate = intent.getStringExtra("date");
-        final String iHour = intent.getStringExtra("hour");
-        final String iMin = intent.getStringExtra("min");
+        final String date = intent.getStringExtra("time");
         final String card = intent.getStringExtra("card");
 
         TextView number = (TextView) findViewById(R.id.textNumber);
@@ -45,10 +41,10 @@ public class RegisterPopUpActivity extends AppCompatActivity {
             number.setText(phone);
         }
         if (time != null) {
-            time.setText(iYear + "." + iMonth + "." + iDate + " " + iHour + ":" + iMin);
+            time.setText(date);
         }
         if (info != null) {
-            info.setText("**** **** **** " + card);
+            info.setText(card);
         }
 
         Button btnCancel = (Button)findViewById(R.id.btnCancel);

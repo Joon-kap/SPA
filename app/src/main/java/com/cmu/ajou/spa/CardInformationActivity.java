@@ -40,14 +40,18 @@ public class CardInformationActivity extends AppCompatActivity {
     private PopupWindow mPopupWindow;
 
     private String identifier = null;
+    private String spot = null;
     private String time = "";
     private String phoneNumber = "";
+    private String phone = "";
     private String sYear = "";
     private String sMonth = "";
     private String sDate = "";
     private String sHour = "";
     private String sMin = "";
     private String sCard = "";
+    private String timeForm = "";
+    private String cardInfo = "";
     private static final char space = ' ';
     private static final char dash = '/';
 
@@ -58,7 +62,7 @@ public class CardInformationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_card_information);
 
         final Intent intent = getIntent();
-        final String phone = intent.getStringExtra("phoneNumber");
+        phone = intent.getStringExtra("phoneNumber");
         final String iYear = intent.getStringExtra("year");
         final String iMonth = intent.getStringExtra("month");
         final String iDate = intent.getStringExtra("date");
@@ -215,15 +219,13 @@ public class CardInformationActivity extends AppCompatActivity {
                         Intent intent = new Intent(CardInformationActivity.this, RegisterPopUpActivity.class);
 
                         intent.putExtra("phoneNumber", phone);
-                        intent.putExtra("year", iYear);
-                        intent.putExtra("month", iMonth);
-                        intent.putExtra("date", iDate);
-                        intent.putExtra("hour", iHour);
-                        intent.putExtra("min", iMin);
 
-                        String cardInfo = card[0];
+                        timeForm = iYear + "." + iMonth + "." + iDate + " " + iHour + ":" + iMin;
+                        intent.putExtra("time", timeForm);
+
+                        cardInfo = card[0];
                         cardInfo = cardInfo.substring(cardInfo.length() - 4, cardInfo.length());
-                        intent.putExtra("card", cardInfo);
+                        intent.putExtra("card", "**** **** **** " + cardInfo);
                         //   String sRegi = "not";
                         //  intent.putExtra("regi", sRegi);
 
@@ -287,13 +289,11 @@ public class CardInformationActivity extends AppCompatActivity {
                 }
                 Log.d(LOG, "run identifier :" + identifier);
                 Intent intent = new Intent(CardInformationActivity.this, Confirm_reservation.class);
-                intent.putExtra("year", sYear);
-                intent.putExtra("month", sMonth);
-                intent.putExtra("date", sDate);
-                intent.putExtra("hour", sHour);
-                intent.putExtra("min", sMin);
-                intent.putExtra("card", sCard);
+                intent.putExtra("phone",phone);
+                intent.putExtra("time", timeForm);
+                intent.putExtra("card", "**** **** **** " + cardInfo);
                 intent.putExtra("pIdentifier", identifier);
+                intent.putExtra("pSpotNumber", spot);
 
                 startActivity(intent);
                 break;
@@ -368,12 +368,11 @@ public class CardInformationActivity extends AppCompatActivity {
             // String identifier = null;
             try {
                 JSONArray jarray = new JSONArray(s);
-                for(int i=0; i < jarray.length(); i++){
-                    JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
-                    identifier = jObject.getString("pIdentifier");
-
-                    Log.d(LOG, "onPostExecute identifier :" + identifier);
-                }
+                JSONObject jObject = jarray.getJSONObject(0); // JSONObject 추출
+                identifier = jObject.getString("pIdentifier");
+                spot = jObject.getString("pSpotNumber");
+                Log.d(LOG, "onPostExecute identifier :" + identifier);
+                Log.d(LOG, "onPostExecute soptNumber :" + spot);
 
             } catch (JSONException e) {
                 e.printStackTrace();

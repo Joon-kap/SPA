@@ -36,6 +36,10 @@ public class Parking_process extends AppCompatActivity {
     TextView tvRecvData_2;
     String attempt = null;
     String identifier = null;
+    String spot = null;
+    String phone = null;
+    String time = null;
+    String card = null;
     RequestThread rt = null;
     boolean runThread = true;
     //TextView ReservationTime;
@@ -74,6 +78,12 @@ public class Parking_process extends AppCompatActivity {
 */
         Intent intent = getIntent();
         identifier = intent.getStringExtra("pIdentifier");
+        spot = intent.getStringExtra("pSpotNumber");
+        phone = intent.getStringExtra("phone");
+        time = intent.getStringExtra("time");
+        card = intent.getStringExtra("card");
+
+        textSpot.setText(spot);
 
         rt = new RequestThread();
        // rt.setDaemon(true);
@@ -187,7 +197,7 @@ public class Parking_process extends AppCompatActivity {
                 enterTime = jObject.getString("P_ENTER_TIME");
                 Log.d("TEST_1", spotNum);
                 Log.d("TEST_2", enterTime);
-                textSpot.setText(spotNum);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -196,8 +206,10 @@ public class Parking_process extends AppCompatActivity {
             if(spotNum != null && enterTime != null){
                 Intent intent = new Intent(Parking_process.this, Payment_process.class);
                 intent.putExtra("spotNum", spotNum);
-                intent.putExtra("enterTime", enterTime);
+                intent.putExtra("eTime", enterTime);
                 intent.putExtra("pIdentifier", identifier);
+                intent.putExtra("phone",phone);
+                intent.putExtra("card", card);
                 startActivity(intent);
                 runThread = false;
             }

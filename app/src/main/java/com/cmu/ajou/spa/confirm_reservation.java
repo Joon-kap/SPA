@@ -36,6 +36,11 @@ public class Confirm_reservation extends AppCompatActivity {
     TextView textTime;
 
     String identifier = null;
+    String spot = null;
+    String phone = null;
+    String time = null;
+    String card = null;
+
     //TextView ReservationTime;
     String LOG = "Confirm_reservation";
     String status = "wait";
@@ -48,14 +53,14 @@ public class Confirm_reservation extends AppCompatActivity {
         //tvRecvData_2 = (TextView) findViewById(R.id.textAvailable_2);
 
         Intent intent = getIntent();
-        String hour = intent.getStringExtra("hour");
-        String min = intent.getStringExtra("min");
-
         identifier = intent.getStringExtra("pIdentifier");
+        spot = intent.getStringExtra("pSpotNumber");
+        phone = intent.getStringExtra("phone");
+        time = intent.getStringExtra("time");
+        card = intent.getStringExtra("card");
 
-        textTime.setText(hour + ":" + min);
+        textTime.setText(time.substring(time.length() - 5, time.length()));
 
-        Log.d(LOG, "time onCreate: " + hour);
         Log.d(LOG, "identifier onCreate : " + identifier);
 
 
@@ -114,6 +119,11 @@ public class Confirm_reservation extends AppCompatActivity {
                 }else{
 */                    Intent intent = new Intent(Confirm_reservation.this, Parking_process.class);
                     intent.putExtra("pIdentifier", identifier);
+                    intent.putExtra("pSpotNumber", spot);
+                intent.putExtra("phone",phone);
+                intent.putExtra("time", time);
+                intent.putExtra("card", card);
+
                     startActivity(intent);
 //                }
 

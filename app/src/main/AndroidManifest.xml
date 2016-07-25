@@ -36,7 +36,15 @@
         <activity android:name=".OpenEnterGate" />
         <activity android:name=".OpenExitGate" />
         <activity android:name=".FinishActivity" />
-        <activity android:name=".RegisterPopUpActivity" android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+        <activity
+            android:name=".RegisterPopUpActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity
+            android:name=".PaymentFailPopUpActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity
+            android:name=".PaymentConfirmPopUpActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
     </application>
 
 </manifest>

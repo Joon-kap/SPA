@@ -31,11 +31,17 @@ import java.util.List;
  */
 public class Payment_process extends AppCompatActivity {
 
-    TextView tvRecvData_1;
-    TextView tvRecvData;
+    TextView tvSpot;
+//    TextView tvTime;
     boolean runThread = true;
     RequestThread rt = null;
     String identifier = null;
+    String spot = null;
+    String startDate = null;
+    String phone = null;
+    String card = null;
+    String endDate = null;
+    String fee = null;
     String exitProceedUrl = ResourceClass.server_ip + "/surepark_server/rev/exitProceed.do";
     String exitGateOpenUrl = ResourceClass.server_ip + "/surepark_server/rev/exitIdentify.do";
 
@@ -57,8 +63,8 @@ public class Payment_process extends AppCompatActivity {
 
         //new HTTPRequestTest().execute();
 
-        tvRecvData = (TextView) findViewById(R.id.textAvailable);
-
+        tvSpot = (TextView) findViewById(R.id.textSpot);
+ //       tvTime = (TextView) findViewById(R.id.textTime);
         btnSend = (Button) findViewById(R.id.paymentBtn);
 
     //    tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
@@ -66,6 +72,13 @@ public class Payment_process extends AppCompatActivity {
 
         Intent intent = getIntent();
         identifier = intent.getStringExtra("pIdentifier");
+        spot = intent.getStringExtra("spotNum");
+        startDate = intent.getStringExtra("enterTime");
+        phone = intent.getStringExtra("phone");
+        card = intent.getStringExtra("card");
+
+        tvSpot.setText(spot);
+   //     tvTime.setText(enterTime);
 
         rt = new RequestThread();
         // rt.setDaemon(true);
@@ -165,25 +178,44 @@ public class Payment_process extends AppCompatActivity {
 
             try {
                 JSONArray jarray = new JSONArray(s);
-                for(int i=0; i < jarray.length(); i++){
-                    JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
+                    JSONObject jObject = jarray.getJSONObject(0);  // JSONObject 추출
                     status = jObject.getString("STATUS");
+                    fee = jObject.getString("pPayment");
+                    endDate = jObject.getString("pExitTime");
+
 
                     Log.d("TEST_1", status);
 
-                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            if(status.equals("SUCCESS")){
+            if(status.equals("SUCCESS")) {
                 runThread = false;
                 if(type2){
-                    Intent intent = new Intent(Payment_process.this, OpenExitGate.class);
+                    Intent intent = new Intent(Payment_process.this, PaymentConfirmPopUpActivity.class);
+
+                    intent.putExtra("phone", phone);
+                    intent.putExtra("sDate", startDate);
+                    intent.putExtra("eDate", endDate);
+                    intent.putExtra("fee", fee);
+                    intent.putExtra("card", card);
+
+                    System.out.println("fee: " + fee);
+                    System.out.println("eDate: " + endDate);
+
+                    //startActivity(intent);
+                    startActivityForResult(intent, RESULT_CANCELED);
+                }
+            } else if(status.equals("FAIL")) {
+                if(type2){
+                    Intent intent = new Intent(Payment_process.this, PaymentFailPopUpActivity.class);
                     startActivity(intent);
                 }
             }
+
+
 
             //Test
             Toast.makeText(getApplicationContext(), "stauts : " + status, Toast.LENGTH_SHORT).show();
@@ -193,10 +225,27 @@ public class Payment_process extends AppCompatActivity {
             //tvRecvData_2.setText(address_4);
 
 
-            tvRecvData.setText(address_2);
+            //tvRecvData.setText(address_2);
 
         }
 
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == RESULT_OK) {
+            //final HTTPRequestTest req = new HTTPRequestTest(time, phoneNumber);
+            //req.execute();
+
+            //RegisterReservation rr = new RegisterReservation();
+            //String status = "wait";
+            //Intent intent = new Intent(CardInformationActivity.this, Confirm_reservation.class);
+            //  int result = rr.RegisterReservation(time, phoneNumber, intent);
+            //cardMY.getText().toString(), cardCSV.getText().toString()
+            //new CheckIdentifier().start();
+            Intent finish = new Intent(Payment_process.this, FinishActivity.class);
+            startActivity(finish);
+        }
     }
 
     private class RequestThread extends Thread{
