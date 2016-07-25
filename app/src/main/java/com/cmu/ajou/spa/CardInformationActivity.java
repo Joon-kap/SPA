@@ -1,5 +1,6 @@
 package com.cmu.ajou.spa;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -83,75 +84,96 @@ public class CardInformationActivity extends AppCompatActivity {
 
 
         final EditText cardNumber = (EditText) findViewById(R.id.editTextCardNumber);
-        if (cardNumber != null) {
-            cardNumber.setNextFocusDownId(R.id.editTextMY);
-        }
+ //       if (cardNumber != null) {
+ //           cardNumber.setNextFocusDownId(R.id.editTextMY);
+ //       }
         final EditText cardMY = (EditText) findViewById(R.id.editTextMY);
-        if (cardMY != null) {
-            cardMY.setNextFocusDownId(R.id.editTextCSV);
-        }
+ //       if (cardMY != null) {
+ //           cardMY.setNextFocusDownId(R.id.editTextCSV);
+ //       }
         final EditText cardCSV = (EditText) findViewById(R.id.editTextCSV);
+  //      if (cardCSV != null){
+  //          cardCSV.setNextFocusDownId(R.id.btnNext);
+  //      }
 
-        cardNumber.requestFocus();
+        if (cardNumber != null) {
+            cardNumber.requestFocus();
+        }
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
-        assert cardNumber != null;
-        cardNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-              /*  if(cardNumber.getText().length() == 4) {
-                    String now = String.valueOf(cardNumber.getText());
-                    now = now + "s";
-                    System.out.println(now);
-                    cardNumber.setText(now);
+        if (cardNumber != null) {
+            cardNumber.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cardNumber.setText("");
                 }
-                if(cardNumber.getText().length() == 9) {
-                    String now = String.valueOf(cardNumber.getText());
-                    now = now + " ";
-                    cardNumber.setText(now);
+            });
+
+            cardNumber.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                  /*  if(cardNumber.getText().length() == 4) {
+                        String now = String.valueOf(cardNumber.getText());
+                        now = now + "s";
+                        System.out.println(now);
+                        cardNumber.setText(now);
+                    }
+                    if(cardNumber.getText().length() == 9) {
+                        String now = String.valueOf(cardNumber.getText());
+                        now = now + " ";
+                        cardNumber.setText(now);
+                    }
+                    if(cardNumber.getText().length() == 14) {
+                        String now = String.valueOf(cardNumber.getText());
+                        now = now + " ";
+                        cardNumber.setText(now);
+                    }
+                  */
+
                 }
-                if(cardNumber.getText().length() == 14) {
-                    String now = String.valueOf(cardNumber.getText());
-                    now = now + " ";
-                    cardNumber.setText(now);
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
                 }
-              */
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // Remove spacing char
-                if (s.length() > 0 && (s.length() % 5) == 0) {
-                    final char c = s.charAt(s.length() - 1);
-                    if (space == c) {
-                        s.delete(s.length() - 1, s.length());
+                @Override
+                public void afterTextChanged(Editable s) {
+                    // Remove spacing char
+                    if (s.length() > 0 && (s.length() % 5) == 0) {
+                        final char c = s.charAt(s.length() - 1);
+                        if (space == c) {
+                            s.delete(s.length() - 1, s.length());
+                        }
+                    }
+                    // Insert char where needed.
+                    if (s.length() > 0 && (s.length() % 5) == 0) {
+                        char c = s.charAt(s.length() - 1);
+                        // Only if its a digit where there should be a space we insert a space
+                        if (Character.isDigit(c) && TextUtils.split(s.toString(), String.valueOf(space)).length <= 3) {
+                            s.insert(s.length() - 1, String.valueOf(space));
+                        }
+                    }
+                    if(cardNumber.getText().length() == 19) {
+                        card[0] = String.valueOf(cardNumber.getText());
+                        sCard = card[0].replace(" ", "");
+                        if (cardMY != null) {
+                            cardMY.requestFocus();
+                        }
                     }
                 }
-                // Insert char where needed.
-                if (s.length() > 0 && (s.length() % 5) == 0) {
-                    char c = s.charAt(s.length() - 1);
-                    // Only if its a digit where there should be a space we insert a space
-                    if (Character.isDigit(c) && TextUtils.split(s.toString(), String.valueOf(space)).length <= 3) {
-                        s.insert(s.length() - 1, String.valueOf(space));
-                    }
-                }
-                if(cardNumber.getText().length() == 19) {
-                    card[0] = String.valueOf(cardNumber.getText());
-                    sCard = card[0].replace(" ", "");
-                    if (cardMY != null) {
-                        cardMY.requestFocus();
-                    }
-                }
-            }
-        });
+            });
+        }
 
         if (cardMY != null) {
+            cardMY.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cardMY.setText("");
+
+                }
+            });
             cardMY.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -186,7 +208,40 @@ public class CardInformationActivity extends AppCompatActivity {
                         }
                     }
                     if(cardMY.getText().length() == 5) {
-                        cardCSV.requestFocus();
+                        if(Integer.valueOf(String.valueOf(cardMY.getText()).substring(0,2))>12) {
+                            cardMY.setText("");
+                        } else if (cardCSV != null) {
+                            cardCSV.requestFocus();
+                        }
+                    }
+                }
+            });
+        }
+
+        if (cardCSV != null) {
+            cardCSV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cardCSV.setText("");
+                }
+            });
+            cardCSV.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if(cardCSV.getText().length() == 3) {
+                        InputMethodManager immhide = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                        immhide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
                     }
                 }
             });

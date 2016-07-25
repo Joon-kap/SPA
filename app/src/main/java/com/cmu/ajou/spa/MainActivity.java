@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    System.out.println(parent.getItemAtPosition(position));
+                 //   System.out.println(parent.getItemAtPosition(position));
                     positionDate[0] = position;
 
                     if(position==0 && Integer.valueOf(String.valueOf(sHour.getItemAtPosition(positionHour[0])))<3) {
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    System.out.println(parent.getItemAtPosition(position));
+                //    System.out.println(parent.getItemAtPosition(position));
                     positionHour[0] = position;
 
                     if(Integer.valueOf(String.valueOf(parent.getItemAtPosition(position)))<9 && Integer.valueOf(String.valueOf(parent.getItemAtPosition(0)))>9) {
