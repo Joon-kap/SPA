@@ -1,5 +1,6 @@
 package com.cmu.ajou.spa;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -39,6 +40,7 @@ import org.springframework.web.client.RestTemplate;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -80,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
         sDate = (Spinner)findViewById(R.id.select_date_spinner);
         sHour = (Spinner)findViewById(R.id.select_hour_spinner);
         sMin = (Spinner)findViewById(R.id.select_min_spinner);
-
 
 
         new HTTPRequestTest().execute();
@@ -238,6 +239,13 @@ public class MainActivity extends AppCompatActivity {
         tvRecvData = (TextView) findViewById(R.id.textAvailable);
         textPhoneNumber = (TextView) findViewById(R.id.textPhoneNumber);
 
+   /*     TelephonyManager tmr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String number = tmr.getLine1Number();
+        Log.d("####", "Phone Number : " + number);
+        if(number != null) {
+            textPhoneNumber.setText(number);
+        }
+*/
 
         btnSend.setOnClickListener(new View.OnClickListener() {
 

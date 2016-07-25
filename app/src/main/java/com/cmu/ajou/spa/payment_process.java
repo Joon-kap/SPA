@@ -57,6 +57,11 @@ public class Payment_process extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_process);
@@ -201,9 +206,6 @@ public class Payment_process extends AppCompatActivity {
                     intent.putExtra("eDate", endDate);
                     intent.putExtra("fee", fee);
                     intent.putExtra("card", card);
-
-                    System.out.println("fee: " + fee);
-                    System.out.println("eDate: " + endDate);
 
                     //startActivity(intent);
                     startActivityForResult(intent, RESULT_CANCELED);

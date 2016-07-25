@@ -1,16 +1,20 @@
 package com.cmu.ajou.spa;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -32,6 +36,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static android.support.v4.app.ActivityCompat.startActivity;
 
@@ -75,6 +80,8 @@ public class CardInformationActivity extends AppCompatActivity {
         sHour = iHour;
         sMin = iMin;
 
+
+
         final EditText cardNumber = (EditText) findViewById(R.id.editTextCardNumber);
         if (cardNumber != null) {
             cardNumber.setNextFocusDownId(R.id.editTextMY);
@@ -84,6 +91,10 @@ public class CardInformationActivity extends AppCompatActivity {
             cardMY.setNextFocusDownId(R.id.editTextCSV);
         }
         final EditText cardCSV = (EditText) findViewById(R.id.editTextCSV);
+
+        cardNumber.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
         assert cardNumber != null;
         cardNumber.addTextChangedListener(new TextWatcher() {

@@ -1,6 +1,9 @@
 package com.cmu.ajou.spa;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +18,11 @@ public class PaymentConfirmPopUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // No Title bar
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+
+
+      //  getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //.requestFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_payment_confirm_pop_up);
 
@@ -36,10 +43,10 @@ public class PaymentConfirmPopUpActivity extends AppCompatActivity {
             txPhone.setText(phone);
         }
         if (txFrom != null) {
-            txFrom.setText(sDate);
+            txFrom.setText(sDate.substring(0,4) + "." + sDate.substring(4,6) + "." + sDate.substring(6,8) + " " + sDate.substring(8,10) + ":" + sDate.substring(10,12));
         }
         if (txTo != null) {
-            txTo.setText(eDate);
+            txTo.setText(eDate.substring(0,4) + "." + eDate.substring(4,6) + "." + eDate.substring(6,8) + " " + eDate.substring(8,10) + ":" + eDate.substring(10,12));
         }
         if (txPrice != null) {
             txPrice.setText(fee);

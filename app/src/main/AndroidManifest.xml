@@ -11,6 +11,7 @@
     <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -44,6 +45,9 @@
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name=".PaymentConfirmPopUpActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity
+            android:name=".EnterFailPopUpActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
     </application>
 

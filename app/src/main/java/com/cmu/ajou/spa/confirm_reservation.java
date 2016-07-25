@@ -97,7 +97,13 @@ public class Confirm_reservation extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 */
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 
     private class CheckIdentifier extends Thread{
@@ -113,19 +119,22 @@ public class Confirm_reservation extends AppCompatActivity {
                     continue;
                 }
                 Log.d(LOG, "run status :" + status); //// 다음 페이지로 넘어가기 위해서 임시로 지운 부분
-/*                if(status.equals("FAIL")){
+                if(status.equals("FAIL")){
+
+                    Intent intent = new Intent(Confirm_reservation.this, EnterFailPopUpActivity.class);
+                    startActivity(intent);
                     Log.d(LOG, "====================run status :" + status);
 //                    Toast.makeText(getApplicationContext(), "Identification FAIL", Toast.LENGTH_SHORT).show();
                 }else{
-*/                    Intent intent = new Intent(Confirm_reservation.this, Parking_process.class);
+                    Intent intent = new Intent(Confirm_reservation.this, Parking_process.class);
                     intent.putExtra("pIdentifier", identifier);
                     intent.putExtra("pSpotNumber", spot);
-                intent.putExtra("phone",phone);
-                intent.putExtra("time", time);
-                intent.putExtra("card", card);
+                    intent.putExtra("phone",phone);
+                    intent.putExtra("time", time);
+                    intent.putExtra("card", card);
 
                     startActivity(intent);
-//                }
+                }
 
                 break;
 

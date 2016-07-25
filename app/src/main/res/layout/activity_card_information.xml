@@ -86,7 +86,7 @@
                 android:id="@+id/editTextCSV"
                 android:textAlignment="center"
                 android:hint="CSV"
-                android:inputType="phone"
+                android:inputType="number"
                 android:maxLength="3"
                 android:textSize="@dimen/abc_text_size_medium_material" />
         </LinearLayout>

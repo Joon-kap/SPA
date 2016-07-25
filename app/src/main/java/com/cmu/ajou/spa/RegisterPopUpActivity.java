@@ -1,7 +1,10 @@
 package com.cmu.ajou.spa;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,8 +20,12 @@ public class RegisterPopUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+     //   Dialog dialog = new Dialog(RegisterPopUpActivity.this);
+      //  dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         // No Title bar
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+    //    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+      //  getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         // 팝업 외부 뿌연 효과
 //        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
  //       layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;

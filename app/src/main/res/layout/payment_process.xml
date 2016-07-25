@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You finish your paring on "
+        android:text="You finish your parking on "
         android:textColor="#4c4c49"
         android:textAlignment="center"
         android:textSize="@dimen/abc_text_size_medium_material" />

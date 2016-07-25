@@ -92,6 +92,11 @@ public class Parking_process extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     private class RequestThread extends Thread{
 
         public void run() {
@@ -206,7 +211,7 @@ public class Parking_process extends AppCompatActivity {
             if(spotNum != null && enterTime != null){
                 Intent intent = new Intent(Parking_process.this, Payment_process.class);
                 intent.putExtra("spotNum", spotNum);
-                intent.putExtra("eTime", enterTime);
+                intent.putExtra("enterTime", enterTime);
                 intent.putExtra("pIdentifier", identifier);
                 intent.putExtra("phone",phone);
                 intent.putExtra("card", card);
