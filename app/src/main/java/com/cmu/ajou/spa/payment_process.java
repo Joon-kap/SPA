@@ -43,7 +43,7 @@ public class Payment_process extends AppCompatActivity {
     String endDate = null;
     String fee = null;
     String exitProceedUrl = ResourceClass.server_ip + "/surepark_server/rev/exitProceed.do";
-    String exitGateOpenUrl = ResourceClass.server_ip + "/surepark_server/rev/exitIdentify.do";
+//    String exitGateOpenUrl = ResourceClass.server_ip + "/surepark_server/rev/exitIdentify.do";
 
 
     Button btnSend;
@@ -93,7 +93,22 @@ public class Payment_process extends AppCompatActivity {
         //        Intent intent = new Intent(getBaseContext(), Payment_process.class);
 
                 Log.d("TEST", "Button!!!!!!!!!!!!!!!1");
-                new HTTPRequestTest(exitGateOpenUrl, true).execute();
+//                new HTTPRequestTest(exitGateOpenUrl, true).execute();
+                Intent intent = new Intent(Payment_process.this, PaymentConfirmPopUpActivity.class);
+
+                intent.putExtra("phone", phone);
+                intent.putExtra("sDate", startDate);
+                intent.putExtra("eDate", endDate);
+                intent.putExtra("fee", fee);
+                intent.putExtra("card", card);
+                intent.putExtra("pIdentifier", identifier);
+
+
+                System.out.println("fee: " + fee);
+                System.out.println("eDate: " + endDate);
+
+                //startActivity(intent);
+                startActivityForResult(intent, RESULT_CANCELED);
 
             }
         });
@@ -194,6 +209,7 @@ public class Payment_process extends AppCompatActivity {
             if(status.equals("SUCCESS")) {
                 runThread = false;
                 if(type2){
+                    /*
                     Intent intent = new Intent(Payment_process.this, PaymentConfirmPopUpActivity.class);
 
                     intent.putExtra("phone", phone);
@@ -207,6 +223,7 @@ public class Payment_process extends AppCompatActivity {
 
                     //startActivity(intent);
                     startActivityForResult(intent, RESULT_CANCELED);
+                    */
                 }
             } else if(status.equals("FAIL")) {
                 if(type2){
