@@ -9,9 +9,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_SMS"/>
 
     <application
         android:allowBackup="true"
@@ -27,15 +25,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".WebSocketActivity" />
-        <activity android:name=".HttpConnection" />
         <activity android:name=".Confirm_reservation" />
         <activity android:name=".Payment_process" />
         <activity android:name=".Parking_process" />
-        <activity android:name=".SelectCardActivity" />
-        <activity android:name=".CardNumberActivity" />
         <activity android:name=".CardInformationActivity" />
-        <activity android:name=".OpenEnterGate" />
-        <activity android:name=".OpenExitGate" />
         <activity android:name=".FinishActivity" />
         <activity
             android:name=".RegisterPopUpActivity"

@@ -312,12 +312,6 @@ public class CardInformationActivity extends AppCompatActivity {
                     }
                      /*
                     req.execute();
-                    // RegisterReservation rr = new RegisterReservation();
-    //                String status = "wait";
-                    //Intent intent = new Intent(CardInformationActivity.this, Confirm_reservation.class);
-                    //  int result = rr.RegisterReservation(time, phoneNumber, intent);
-    //cardMY.getText().toString(), cardCSV.getText().toString()
-                    new CheckIdentifier().start();
 
 
                     if(identifier == null) {
@@ -335,11 +329,7 @@ public class CardInformationActivity extends AppCompatActivity {
                 final HTTPRequestTest req = new HTTPRequestTest(time, phoneNumber);
                 req.execute();
 
-                    //RegisterReservation rr = new RegisterReservation();
-                    //String status = "wait";
-                    //Intent intent = new Intent(CardInformationActivity.this, Confirm_reservation.class);
-                    //  int result = rr.RegisterReservation(time, phoneNumber, intent);
-                    //cardMY.getText().toString(), cardCSV.getText().toString()
+
                  new CheckIdentifier().start();
             }
     }

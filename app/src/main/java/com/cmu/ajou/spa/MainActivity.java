@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
     Spinner sMin;
 
     int next = 0;
-    private BackPressCloseHandler backPressCloseHandler;
 
     /*
     private EditText etMessage;
