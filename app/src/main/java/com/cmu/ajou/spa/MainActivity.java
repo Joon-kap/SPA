@@ -13,7 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
+import java.security.Key;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,6 +31,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.http.params.HttpConnectionParams;
+import org.bouncycastle.util.encoders.Base64;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -90,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         new HTTPRequestTest().execute();
+
 
         final Date cal = new Date();
 
@@ -468,6 +477,8 @@ public class MainActivity extends AppCompatActivity {
 
             String avail = null;
             String total = null;
+            String publicK = null;
+
 
             try {
 
@@ -477,6 +488,33 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("TEST", jObject.getString("AVABILE_QTY"));
                 total = jObject.getString("TOTAL_QTY");
                 avail = jObject.getString("AVABILE_QTY");
+                /*
+                publicK = jObject.getString("PUBLIC_KEY");
+*/
+/*
+                byte[] keyBytes = new byte[0];
+                try {
+                    keyBytes = Base64.decode(publicK.getBytes("utf-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
+                KeyFactory keyFactory = null;
+                PublicKey key = null;
+                try {
+                    keyFactory = KeyFactory.getInstance("RSA");
+                    key = keyFactory.generatePublic(spec);
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (InvalidKeySpecException e) {
+                    e.printStackTrace();
+                }
+
+
+                // key = (Key) jObject.get("PUBLIC_KEY");
+                System.out.println("key : " + key);
+                */
+//                Log.d("TEST", key);
                 /*
                 for(int i=0; i < jarray.length(); i++){
                     JSONObject jObject = jarray.getJSONObject(i); // JSONObject 추출

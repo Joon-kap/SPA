@@ -43,6 +43,7 @@ dependencies {
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.11'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
+    compile files('libs/bcprov-jdk15on-154.jar')
 }
 
 
