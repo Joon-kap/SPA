@@ -37,6 +37,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -64,6 +70,8 @@ public class CardInformationActivity extends AppCompatActivity {
     private String cardInfo = "";
     private static final char space = ' ';
     private static final char dash = '/';
+    private PublicKey publicKey = null;
+    private byte[] publicKeyArr = null;
 
     String LOG = "CardInformationActivity";
     @Override
@@ -78,6 +86,18 @@ public class CardInformationActivity extends AppCompatActivity {
         final String iDate = intent.getStringExtra("date");
         final String iHour = intent.getStringExtra("hour");
         final String iMin = intent.getStringExtra("min");
+        publicKeyArr = intent.getByteArrayExtra("key");
+
+        try {
+            publicKey = KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(publicKeyArr));
+        } catch (InvalidKeySpecException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("publicKey : " + publicKey);
+
         final String[] card = {""};
         sYear = iYear;
         sMonth = iMonth;
@@ -393,8 +413,16 @@ public class CardInformationActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
 
             MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+
+          //  Encryption ec = new Encryption();
+          //  byte enc[] = ec.encoding(phoneNumber.getBytes(), publicKey);
+
+            String encStr = Encryption.encrypt(phoneNumber, publicKey);
+
+            Log.d("TEST", "encStr : " + encStr);
+
             parameters.add("pReserTime", time);
-            parameters.add("pReserTelno", phoneNumber);
+            parameters.add("pReserTelno", encStr);
 
             HttpHeaders headers = new HttpHeaders();
 

@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
     int next = 0;
 
+    PublicKey publicKey = null;
+
     /*
     private EditText etMessage;
     private TextView tvRecvData;
@@ -338,6 +340,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("date", iDate);
                     intent.putExtra("hour", iHour);
                     intent.putExtra("min", iMin);
+                    intent.putExtra("key", publicKey.getEncoded());
 
 
                     startActivity(intent);
@@ -488,6 +491,17 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("TEST", jObject.getString("AVABILE_QTY"));
                 total = jObject.getString("TOTAL_QTY");
                 avail = jObject.getString("AVABILE_QTY");
+                publicK = jObject.getString("PUBLIC_KEY");
+
+
+                try {
+                    publicKey = KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Encryption.hexToByteArray(publicK)));
+                } catch (InvalidKeySpecException e) {
+                    e.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("key : " + publicKey);
                 /*
                 publicK = jObject.getString("PUBLIC_KEY");
 */
