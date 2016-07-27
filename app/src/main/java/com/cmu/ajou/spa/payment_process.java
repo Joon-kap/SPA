@@ -32,7 +32,8 @@ import java.util.List;
 public class Payment_process extends AppCompatActivity {
 
     TextView tvSpot;
-//    TextView tvTime;
+    TextView tvI;
+    TextView tvT;
     boolean runThread = true;
     RequestThread rt = null;
     String identifier = null;
@@ -42,8 +43,10 @@ public class Payment_process extends AppCompatActivity {
     String card = null;
     String endDate = null;
     String fee = null;
+    String exitGate = null;
     String exitProceedUrl = ResourceClass.server_ip + "/surepark_server/rev/exitProceed.do";
     String exitGateOpenUrl = ResourceClass.server_ip + "/surepark_server/rev/exitIdentify.do";
+    int statusG = 1;
 
 
     Button btnSend;
@@ -57,11 +60,6 @@ public class Payment_process extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-
-    }
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_process);
@@ -69,7 +67,8 @@ public class Payment_process extends AppCompatActivity {
         //new HTTPRequestTest().execute();
 
         tvSpot = (TextView) findViewById(R.id.textSpot);
- //       tvTime = (TextView) findViewById(R.id.textTime);
+        tvI = (TextView) findViewById(R.id.infront);
+        tvT = (TextView) findViewById(R.id.text);
         btnSend = (Button) findViewById(R.id.paymentBtn);
 
     //    tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
@@ -81,8 +80,17 @@ public class Payment_process extends AppCompatActivity {
         startDate = intent.getStringExtra("enterTime");
         phone = intent.getStringExtra("phone");
         card = intent.getStringExtra("card");
+        exitGate = intent.getStringExtra("ExitGate");
 
-        tvSpot.setText(spot);
+        if(exitGate.equals("Detected") && spot.equals("0") && startDate.equals("0")) {
+            tvSpot.setText("");
+            tvI.setText("You are infront of the gate");
+            tvT.setText("If you are going to go out,\nplease press the payment button.");
+
+        } else {
+            tvSpot.setText(spot);
+        }
+
    //     tvTime.setText(enterTime);
 
         rt = new RequestThread();
@@ -95,13 +103,19 @@ public class Payment_process extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+                new HTTPRequestTest(exitProceedUrl, true).execute();
         //        Intent intent = new Intent(getBaseContext(), Payment_process.class);
 
                 Log.d("TEST", "Button!!!!!!!!!!!!!!!1");
-                new HTTPRequestTest(exitGateOpenUrl, true).execute();
+
 
             }
         });
+
+    }
+
+    @Override
+    public void onBackPressed() {
 
     }
 
@@ -196,7 +210,7 @@ public class Payment_process extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            if(status.equals("SUCCESS")) {
+            if(status.equals("SUCCESS") && statusG == 1) {
                 runThread = false;
                 if(type2){
                     Intent intent = new Intent(Payment_process.this, PaymentConfirmPopUpActivity.class);
@@ -206,6 +220,7 @@ public class Payment_process extends AppCompatActivity {
                     intent.putExtra("eDate", endDate);
                     intent.putExtra("fee", fee);
                     intent.putExtra("card", card);
+
 
                     //startActivity(intent);
                     startActivityForResult(intent, RESULT_CANCELED);
@@ -236,14 +251,11 @@ public class Payment_process extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == RESULT_OK) {
+            new HTTPRequestTest(exitGateOpenUrl, true).execute();
+            statusG = 0;
             //final HTTPRequestTest req = new HTTPRequestTest(time, phoneNumber);
             //req.execute();
 
-            //RegisterReservation rr = new RegisterReservation();
-            //String status = "wait";
-            //Intent intent = new Intent(CardInformationActivity.this, Confirm_reservation.class);
-            //  int result = rr.RegisterReservation(time, phoneNumber, intent);
-            //cardMY.getText().toString(), cardCSV.getText().toString()
             //new CheckIdentifier().start();
             Intent finish = new Intent(Payment_process.this, FinishActivity.class);
             startActivity(finish);

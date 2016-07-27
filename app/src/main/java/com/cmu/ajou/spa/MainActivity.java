@@ -1,10 +1,14 @@
 package com.cmu.ajou.spa;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -42,6 +46,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -66,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner sMin;
 
     int next = 0;
+    private BackPressCloseHandler backPressCloseHandler;
 
     /*
     private EditText etMessage;
@@ -239,38 +245,79 @@ public class MainActivity extends AppCompatActivity {
         tvRecvData = (TextView) findViewById(R.id.textAvailable);
         textPhoneNumber = (TextView) findViewById(R.id.textPhoneNumber);
 
-   /*     TelephonyManager tmr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        String number = tmr.getLine1Number();
+    /*    TelephonyManager mTelephonyMgr;
+        mTelephonyMgr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        String number = mTelephonyMgr.getLine1Number();
+
         Log.d("####", "Phone Number : " + number);
         if(number != null) {
             textPhoneNumber.setText(number);
         }
 */
 
-        btnSend.setOnClickListener(new View.OnClickListener() {
+
+
+                btnSend.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                if(next == 1) {
+
+
+                int year = current.get(Calendar.YEAR);
+                int month = current.get(Calendar.MONTH)+1;
+
+                if(positionDate[0] == 1) {
+                    year = end.get(Calendar.YEAR);
+                    month = end.get(Calendar.MONTH)+1;
+                }
+
+                int date = Integer.valueOf(String.valueOf(sDate.getItemAtPosition(positionDate[0])));
+                int hour = Integer.valueOf(String.valueOf(sHour.getItemAtPosition(positionHour[0])));
+                int min = Integer.valueOf(String.valueOf(sMin.getItemAtPosition(positionMin[0])));
+
+                Date now = new Date();
+                Calendar current = Calendar.getInstance();
+
+                current.setTime(now);
+
+                int cYear = current.get(Calendar.YEAR);
+                int cMonth = current.get(Calendar.MONTH)+1;
+                int cDate = current.get(Calendar.DATE);
+                int cHour = current.get(Calendar.HOUR_OF_DAY);
+                int cMin = current.get(Calendar.MINUTE);
+
+                String re = String.format("%02d%02d%02d%02d%02d", year,month,date,hour,min);
+                String cu = String.format("%02d%02d%02d%02d%02d", cYear,cMonth,cDate,cHour,cMin);
+                long ire = Long.parseLong(re);
+                long icu = Long.parseLong(cu);
+        //        System.out.println(re);
+        //        System.out.println(cu);
+
+        //        int compare = re.compareTo(cu);
+
+        //        System.out.println(compare);
+
+                if(ire < icu) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                    alert.setMessage("The reservation time is not available.");
+                    alert.show();
+
+                } else if(next == 1) {
                     Intent intent = new Intent(MainActivity.this, CardInformationActivity.class);
 
                     //핸드폰 번호
                     String phone = textPhoneNumber.getText().toString();
                 //    phone = phone.replace("-", "");
                     intent.putExtra("phoneNumber", phone);
-
-                    int year = current.get(Calendar.YEAR);
-                    int month = current.get(Calendar.MONTH)+1;
-
-                    if(positionDate[0] == 1) {
-                        year = end.get(Calendar.YEAR);
-                        month = end.get(Calendar.MONTH)+1;
-                    }
-
-                    int date = Integer.valueOf(String.valueOf(sDate.getItemAtPosition(positionDate[0])));
-                    int hour = Integer.valueOf(String.valueOf(sHour.getItemAtPosition(positionHour[0])));
-                    int min = Integer.valueOf(String.valueOf(sMin.getItemAtPosition(positionMin[0])));
 
                     String iYear = String.format("%02d", year);
                     String iMonth = String.format("%02d", month);
@@ -286,6 +333,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                     startActivity(intent);
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Now there is no parking spot is avaliable.", Toast.LENGTH_SHORT).show();
                 }
@@ -312,6 +360,46 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         */
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        switch (keyCode) {
+            //하드웨어 뒤로가기 버튼에 따른 이벤트 설정
+            case KeyEvent.KEYCODE_BACK:
+
+             //   Toast.makeText(this, "Back Button is Pressed.", Toast.LENGTH_SHORT).show();
+
+                new AlertDialog.Builder(this)
+                      //  .setTitle("프로그램 종료")
+                        .setMessage("Do you want to exit?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // 프로세스 종료.
+                                android.os.Process.killProcess(android.os.Process.myPid());
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+
+                break;
+
+            default:
+                break;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
     private class HTTPRequestTest extends AsyncTask<Void,Void,String> {
@@ -409,17 +497,19 @@ public class MainActivity extends AppCompatActivity {
 
         //    Toast.makeText(getApplicationContext(), "Parsed Data : " + s, Toast.LENGTH_SHORT).show();
 
-            tvRecvData.setText(avail+"/"+total);
 
             String strRed = "#FF0000";
             String strGreen = "#00B050";
 
-            if(avail.equals("0")) {
-                tvRecvData.setTextColor(Color.parseColor(strRed));
-                next = 0;
-            } else {
-                tvRecvData.setTextColor(Color.parseColor(strGreen));
-                next = 1;
+            if (avail != null) {
+                tvRecvData.setText(avail+"/"+total);
+                if(avail.equals("0")) {
+                    tvRecvData.setTextColor(Color.parseColor(strRed));
+                    next = 0;
+                } else {
+                    tvRecvData.setTextColor(Color.parseColor(strGreen));
+                    next = 1;
+                }
             }
             //서버에서 받아온 정보를 text로 표시(남은 주차 칸 수)
             //tvRecvData.setText(identifier);

@@ -16,7 +16,8 @@
         android:text="You finish your parking on "
         android:textColor="#4c4c49"
         android:textAlignment="center"
-        android:textSize="@dimen/abc_text_size_medium_material" />
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:id="@+id/infront" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -57,7 +58,8 @@
         android:text="From now on the payment\nfor parkng will be charged.\n\nIf you are going to go out,\nplease press the payment button."
         android:textColor="#4c4c49"
         android:textAlignment="center"
-        android:textSize="@dimen/abc_text_size_medium_material" />
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:id="@+id/text" />
 
     <TextView
         android:layout_width="wrap_content"

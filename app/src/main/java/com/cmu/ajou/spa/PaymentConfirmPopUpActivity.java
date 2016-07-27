@@ -42,11 +42,15 @@ public class PaymentConfirmPopUpActivity extends AppCompatActivity {
         if (txPhone != null) {
             txPhone.setText(phone);
         }
-        if (txFrom != null) {
+        if (txFrom != null && sDate.length()>10) {
             txFrom.setText(sDate.substring(0,4) + "." + sDate.substring(4,6) + "." + sDate.substring(6,8) + " " + sDate.substring(8,10) + ":" + sDate.substring(10,12));
+        } else {
+            txFrom.setText("Do not park");
         }
-        if (txTo != null) {
+        if (txTo != null && sDate.length()>10) {
             txTo.setText(eDate.substring(0,4) + "." + eDate.substring(4,6) + "." + eDate.substring(6,8) + " " + eDate.substring(8,10) + ":" + eDate.substring(10,12));
+        } else {
+            txTo.setText("Do not park");
         }
         if (txPrice != null) {
             txPrice.setText(fee);

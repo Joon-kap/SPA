@@ -181,6 +181,7 @@ public class Parking_process extends AppCompatActivity {
 
             String spotNum = null;
             String enterTime = null;
+            String exitGate = null;
 
 
             try {
@@ -200,17 +201,20 @@ public class Parking_process extends AppCompatActivity {
                 JSONObject jObject = jarray.getJSONObject(0); // JSONObject 추출
                 spotNum = jObject.getString("P_SPOT_NUMBER");
                 enterTime = jObject.getString("P_ENTER_TIME");
+                exitGate = jObject.getString("EXIT_GATE");
                 Log.d("TEST_1", spotNum);
                 Log.d("TEST_2", enterTime);
+                Log.d("TEST_3", exitGate);
 
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            if(spotNum != null && enterTime != null){
+            if(spotNum != null && enterTime != null && exitGate != null){
                 Intent intent = new Intent(Parking_process.this, Payment_process.class);
                 intent.putExtra("spotNum", spotNum);
+                intent.putExtra("ExitGate", exitGate);
                 intent.putExtra("enterTime", enterTime);
                 intent.putExtra("pIdentifier", identifier);
                 intent.putExtra("phone",phone);
@@ -219,7 +223,7 @@ public class Parking_process extends AppCompatActivity {
                 runThread = false;
             }
 
-           // attempt = address_5;
+            // attempt = address_5;
             //Test
 
             Toast.makeText(getApplicationContext(), "pPresentParkinglotStatus Data : " + spotNum, Toast.LENGTH_SHORT).show();

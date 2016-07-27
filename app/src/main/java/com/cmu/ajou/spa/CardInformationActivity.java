@@ -2,8 +2,10 @@ package com.cmu.ajou.spa;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -36,6 +38,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -99,6 +103,7 @@ public class CardInformationActivity extends AppCompatActivity {
         if (cardNumber != null) {
             cardNumber.requestFocus();
         }
+        // 키보드 포커스
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
@@ -246,6 +251,10 @@ public class CardInformationActivity extends AppCompatActivity {
                 }
             });
         }
+//지우기
+//        cardNumber.setText("1111 1111 1111 1111");
+//        cardMY.setText("11/11");
+//        cardCSV.setText("111");
 
         Button btnNext = (Button)findViewById(R.id.buttonNext);
         if (btnNext != null) {
@@ -253,35 +262,36 @@ public class CardInformationActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-/*                    View popupView = getLayoutInflater().inflate(R.layout.activity_register_pop_up, null);
-                    mPopupWindow = new PopupWindow(popupView, RelativeLayout.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                    String re = iYear + iMonth + iDate + iHour + iMin;
 
-                    mPopupWindow.setAnimationStyle(-1); // 애니메이션 설정(-1:설정, 0:설정안함)
-        //          mPopupWindow.showAsDropDown(btn_Popup, 50, 50);
+                    Date now = new Date();
+                    Calendar current = Calendar.getInstance();
 
-                    mPopupWindow.showAtLocation(popupView, Gravity.NO_GRAVITY, 0, 0);
-//                    mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, -100);
-*/
-                    /**
-                     * update() 메서드를 통해 PopupWindow의 좌우 사이즈, x좌표, y좌표
-                     * anchor View까지 재설정 해줄수 있습니다.
-                     */
-//          mPopupWindow.update(anchor, xoff, yoff, width, height)(width, height);
-                    //팝업 터치 가능
-//                    mPopupWindow.setTouchable(true);
-//팝업 외부 터치 가능(외부 터치시 나갈 수 있게)
-//                    mPopupWindow.setOutsideTouchable(true);
-//외부터치 인식을 위한 추가 설정 : 미 설정시 외부는 null로 생각하고 터치 인식 X
- //                   mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-//애니메이션 활성화
-//                    mPopupWindow.setAnimationStyle(R.style.Animation_AppCompat_DropDownUp);
-//한가운데 팝업 생성
- //                   mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                    current.setTime(now);
 
-//아니면
-//버튼에서 (Xoffset,Yoffset)만큼 떨어진 데 생성
-//mPopupWindow.showAsDropDown(btnClick, 20, 20);
-                    if(cardNumber.getText().length() == 19 && cardMY.getText().length() == 5 && cardCSV.getText().length() ==3) {
+                    int cYear = current.get(Calendar.YEAR);
+                    int cMonth = current.get(Calendar.MONTH)+1;
+                    int cDate = current.get(Calendar.DATE);
+                    int cHour = current.get(Calendar.HOUR_OF_DAY);
+                    int cMin = current.get(Calendar.MINUTE);
+
+                    String cu = String.format("%02d%02d%02d%02d%02d", cYear,cMonth,cDate,cHour,cMin);
+
+                    int compare = re.compareTo(cu);
+
+                    if(compare < 0) {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(CardInformationActivity.this);
+                        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                Intent intent = new Intent(CardInformationActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        alert.setMessage("The reservation time is not available.");
+                        alert.show();
+                    } else if(cardNumber.getText().length() == 19 && cardMY.getText().length() == 5 && cardCSV.getText().length() ==3) {
                         Intent intent = new Intent(CardInformationActivity.this, RegisterPopUpActivity.class);
 
                         intent.putExtra("phoneNumber", phone);
