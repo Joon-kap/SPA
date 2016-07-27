@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
@@ -14,33 +15,46 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Now, the gate is open.\nParking your car at the Green Light."
+            android:text="Now, the gate is open."
             android:id="@+id/textView3"
             android:textColor="#4c4c49"
             android:layout_weight="0.20"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="@dimen/abc_text_size_medium_material" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parking your car at "
+                android:id="@+id/textView4"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:textColor="#4c4c49" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:id="@+id/textSpot"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:textColor="#4c4c49" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="."
+                android:id="@+id/textView6"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:textColor="#4c4c49" />
+
+        </LinearLayout>
+
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/waitBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:gravity="center"
-            android:drawableTop="@drawable/open_button_icon"
-
-            android:text="Test Next Step!"
-            />
-
-    </LinearLayout>
-
 
 
 </LinearLayout>

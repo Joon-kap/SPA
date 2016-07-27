@@ -32,10 +32,14 @@ import java.util.List;
 public class Parking_process extends AppCompatActivity {
 
     Button btnSend;
-    TextView tvRecvData_1;
+    TextView textSpot;
     TextView tvRecvData_2;
     String attempt = null;
     String identifier = null;
+    String spot = null;
+    String phone = null;
+    String time = null;
+    String card = null;
     RequestThread rt = null;
     boolean runThread = true;
     //TextView ReservationTime;
@@ -53,7 +57,7 @@ public class Parking_process extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parking_process);
 
-        tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
+        textSpot = (TextView) findViewById(R.id.textSpot);
         //tvRecvData_2 = (TextView) findViewById(R.id.textAvailable_2);
 
 /*
@@ -74,24 +78,22 @@ public class Parking_process extends AppCompatActivity {
 */
         Intent intent = getIntent();
         identifier = intent.getStringExtra("pIdentifier");
+        spot = intent.getStringExtra("pSpotNumber");
+        phone = intent.getStringExtra("phone");
+        time = intent.getStringExtra("time");
+        card = intent.getStringExtra("card");
+
+        textSpot.setText(spot);
 
         rt = new RequestThread();
        // rt.setDaemon(true);
         rt.start();
-        btnSend = (Button)findViewById(R.id.waitBtn);
-        //ReservationTime = (EditText) findViewById(R.id.ReservationTime);
 
 
-        btnSend.setOnClickListener(new View.OnClickListener() {
+    }
 
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                //Intent intent = new Intent(getBaseContext(),Payment_process.class);
-                Intent intent = new Intent(getBaseContext(),Payment_process.class);
-                startActivity(intent);
-            }
-        });
+    @Override
+    public void onBackPressed() {
 
     }
 
@@ -179,6 +181,7 @@ public class Parking_process extends AppCompatActivity {
 
             String spotNum = null;
             String enterTime = null;
+            String exitGate = null;
 
 
             try {
@@ -198,23 +201,29 @@ public class Parking_process extends AppCompatActivity {
                 JSONObject jObject = jarray.getJSONObject(0); // JSONObject 추출
                 spotNum = jObject.getString("P_SPOT_NUMBER");
                 enterTime = jObject.getString("P_ENTER_TIME");
+                exitGate = jObject.getString("EXIT_GATE");
                 Log.d("TEST_1", spotNum);
                 Log.d("TEST_2", enterTime);
+                Log.d("TEST_3", exitGate);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            if(spotNum != null && enterTime != null){
+            if(spotNum != null && enterTime != null && exitGate != null){
                 Intent intent = new Intent(Parking_process.this, Payment_process.class);
                 intent.putExtra("spotNum", spotNum);
+                intent.putExtra("ExitGate", exitGate);
                 intent.putExtra("enterTime", enterTime);
                 intent.putExtra("pIdentifier", identifier);
+                intent.putExtra("phone",phone);
+                intent.putExtra("card", card);
                 startActivity(intent);
                 runThread = false;
             }
 
-           // attempt = address_5;
+            // attempt = address_5;
             //Test
 
             Toast.makeText(getApplicationContext(), "pPresentParkinglotStatus Data : " + spotNum, Toast.LENGTH_SHORT).show();

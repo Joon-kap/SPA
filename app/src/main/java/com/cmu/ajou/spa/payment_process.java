@@ -31,13 +31,22 @@ import java.util.List;
  */
 public class Payment_process extends AppCompatActivity {
 
-    TextView tvRecvData_1;
-    TextView tvRecvData;
+    TextView tvSpot;
+    TextView tvI;
+    TextView tvT;
     boolean runThread = true;
     RequestThread rt = null;
     String identifier = null;
+    String spot = null;
+    String startDate = null;
+    String phone = null;
+    String card = null;
+    String endDate = null;
+    String fee = null;
+    String exitGate = null;
     String exitProceedUrl = ResourceClass.server_ip + "/surepark_server/rev/exitProceed.do";
     String exitGateOpenUrl = ResourceClass.server_ip + "/surepark_server/rev/exitIdentify.do";
+    int statusG = 1;
 
 
     Button btnSend;
@@ -57,15 +66,32 @@ public class Payment_process extends AppCompatActivity {
 
         //new HTTPRequestTest().execute();
 
-        tvRecvData = (TextView) findViewById(R.id.textAvailable);
-
+        tvSpot = (TextView) findViewById(R.id.textSpot);
+        tvI = (TextView) findViewById(R.id.infront);
+        tvT = (TextView) findViewById(R.id.text);
         btnSend = (Button) findViewById(R.id.paymentBtn);
 
-        tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
+    //    tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
         //ReservationTime = (EditText) findViewById(R.id.ReservationTime);
 
         Intent intent = getIntent();
         identifier = intent.getStringExtra("pIdentifier");
+        spot = intent.getStringExtra("spotNum");
+        startDate = intent.getStringExtra("enterTime");
+        phone = intent.getStringExtra("phone");
+        card = intent.getStringExtra("card");
+        exitGate = intent.getStringExtra("ExitGate");
+
+        if(exitGate.equals("Detected") && spot.equals("0") && startDate.equals("0")) {
+            tvSpot.setText("");
+            tvI.setText("You are infront of the gate");
+            tvT.setText("If you are going to go out,\nplease press the payment button.");
+
+        } else {
+            tvSpot.setText(spot);
+        }
+
+   //     tvTime.setText(enterTime);
 
         rt = new RequestThread();
         // rt.setDaemon(true);
@@ -77,13 +103,19 @@ public class Payment_process extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+                new HTTPRequestTest(exitProceedUrl, true).execute();
         //        Intent intent = new Intent(getBaseContext(), Payment_process.class);
 
                 Log.d("TEST", "Button!!!!!!!!!!!!!!!1");
-                new HTTPRequestTest(exitGateOpenUrl, true).execute();
+
 
             }
         });
+
+    }
+
+    @Override
+    public void onBackPressed() {
 
     }
 
@@ -165,25 +197,42 @@ public class Payment_process extends AppCompatActivity {
 
             try {
                 JSONArray jarray = new JSONArray(s);
-                for(int i=0; i < jarray.length(); i++){
-                    JSONObject jObject = jarray.getJSONObject(i);  // JSONObject 추출
+                    JSONObject jObject = jarray.getJSONObject(0);  // JSONObject 추출
                     status = jObject.getString("STATUS");
+                    fee = jObject.getString("pPayment");
+                    endDate = jObject.getString("pExitTime");
+
 
                     Log.d("TEST_1", status);
 
-                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            if(status.equals("SUCCESS")){
+            if(status.equals("SUCCESS") && statusG == 1) {
                 runThread = false;
                 if(type2){
-                    Intent intent = new Intent(Payment_process.this, OpenExitGate.class);
+                    Intent intent = new Intent(Payment_process.this, PaymentConfirmPopUpActivity.class);
+
+                    intent.putExtra("phone", phone);
+                    intent.putExtra("sDate", startDate);
+                    intent.putExtra("eDate", endDate);
+                    intent.putExtra("fee", fee);
+                    intent.putExtra("card", card);
+
+
+                    //startActivity(intent);
+                    startActivityForResult(intent, RESULT_CANCELED);
+                }
+            } else if(status.equals("FAIL")) {
+                if(type2){
+                    Intent intent = new Intent(Payment_process.this, PaymentFailPopUpActivity.class);
                     startActivity(intent);
                 }
             }
+
+
 
             //Test
             Toast.makeText(getApplicationContext(), "stauts : " + status, Toast.LENGTH_SHORT).show();
@@ -193,10 +242,24 @@ public class Payment_process extends AppCompatActivity {
             //tvRecvData_2.setText(address_4);
 
 
-            tvRecvData.setText(address_2);
+            //tvRecvData.setText(address_2);
 
         }
 
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == RESULT_OK) {
+            new HTTPRequestTest(exitGateOpenUrl, true).execute();
+            statusG = 0;
+            //final HTTPRequestTest req = new HTTPRequestTest(time, phoneNumber);
+            //req.execute();
+
+            //new CheckIdentifier().start();
+            Intent finish = new Intent(Payment_process.this, FinishActivity.class);
+            startActivity(finish);
+        }
     }
 
     private class RequestThread extends Thread{

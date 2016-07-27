@@ -1,14 +1,26 @@
 package com.cmu.ajou.spa;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
+import java.security.Key;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,6 +31,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.http.params.HttpConnectionParams;
+import org.bouncycastle.util.encoders.Base64;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -39,7 +52,9 @@ import org.springframework.web.client.RestTemplate;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -81,10 +96,10 @@ public class MainActivity extends AppCompatActivity {
         sHour = (Spinner)findViewById(R.id.select_hour_spinner);
         sMin = (Spinner)findViewById(R.id.select_min_spinner);
 
-        System.out.println(1);
 
         new HTTPRequestTest().execute();
-        System.out.println(2);
+
+
         final Date cal = new Date();
 
         final Calendar current = Calendar.getInstance();
@@ -105,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         final int[] positionDate = {0};
         final int[] positionHour = {0};
         final int[] positionMin = {0};
-        System.out.println(3);
+
          if(cHour > 20) {
             String[] slDate = {String.valueOf(cDate), String.valueOf(eDate)};
 
@@ -161,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    System.out.println(parent.getItemAtPosition(position));
+                 //   System.out.println(parent.getItemAtPosition(position));
                     positionDate[0] = position;
 
                     if(position==0 && Integer.valueOf(String.valueOf(sHour.getItemAtPosition(positionHour[0])))<3) {
@@ -192,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    System.out.println(parent.getItemAtPosition(position));
+                //    System.out.println(parent.getItemAtPosition(position));
                     positionHour[0] = position;
 
                     if(Integer.valueOf(String.valueOf(parent.getItemAtPosition(position)))<9 && Integer.valueOf(String.valueOf(parent.getItemAtPosition(0)))>9) {
@@ -232,46 +247,101 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-        System.out.println(4);
+
 
         btnSend = (Button)findViewById(R.id.btnNext);
         tvRecvData = (TextView) findViewById(R.id.textAvailable);
         textPhoneNumber = (TextView) findViewById(R.id.textPhoneNumber);
 
-        System.out.println(5);
-        btnSend.setOnClickListener(new View.OnClickListener() {
+    /*    TelephonyManager mTelephonyMgr;
+        mTelephonyMgr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        String number = mTelephonyMgr.getLine1Number();
+
+        Log.d("####", "Phone Number : " + number);
+        if(number != null) {
+            textPhoneNumber.setText(number);
+        }
+*/
+
+
+
+                btnSend.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                if(next == 1) {
-                    Intent intent = new Intent(MainActivity.this, CardNumberActivity.class);
+
+
+                int year = current.get(Calendar.YEAR);
+                int month = current.get(Calendar.MONTH)+1;
+
+                if(positionDate[0] == 1) {
+                    year = end.get(Calendar.YEAR);
+                    month = end.get(Calendar.MONTH)+1;
+                }
+
+                int date = Integer.valueOf(String.valueOf(sDate.getItemAtPosition(positionDate[0])));
+                int hour = Integer.valueOf(String.valueOf(sHour.getItemAtPosition(positionHour[0])));
+                int min = Integer.valueOf(String.valueOf(sMin.getItemAtPosition(positionMin[0])));
+
+                Date now = new Date();
+                Calendar current = Calendar.getInstance();
+
+                current.setTime(now);
+
+                int cYear = current.get(Calendar.YEAR);
+                int cMonth = current.get(Calendar.MONTH)+1;
+                int cDate = current.get(Calendar.DATE);
+                int cHour = current.get(Calendar.HOUR_OF_DAY);
+                int cMin = current.get(Calendar.MINUTE);
+
+                String re = String.format("%02d%02d%02d%02d%02d", year,month,date,hour,min);
+                String cu = String.format("%02d%02d%02d%02d%02d", cYear,cMonth,cDate,cHour,cMin);
+                long ire = Long.parseLong(re);
+                long icu = Long.parseLong(cu);
+        //        System.out.println(re);
+        //        System.out.println(cu);
+
+        //        int compare = re.compareTo(cu);
+
+        //        System.out.println(compare);
+
+                if(ire < icu) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                    alert.setMessage("The reservation time is not available.");
+                    alert.show();
+
+                } else if(next == 1) {
+                    Intent intent = new Intent(MainActivity.this, CardInformationActivity.class);
 
                     //핸드폰 번호
                     String phone = textPhoneNumber.getText().toString();
-                    phone = phone.replace("-", "");
+                //    phone = phone.replace("-", "");
                     intent.putExtra("phoneNumber", phone);
 
-                    int year = current.get(Calendar.YEAR);
-                    int month = current.get(Calendar.MONTH)+1;
+                    String iYear = String.format("%02d", year);
+                    String iMonth = String.format("%02d", month);
+                    String iDate = String.format("%02d", date);
+                    String iHour = String.format("%02d", hour);
+                    String iMin = String.format("%02d", min);
 
-                    if(positionDate[0] == 1) {
-                        year = end.get(Calendar.YEAR);
-                        month = end.get(Calendar.MONTH)+1;
-                    }
+                    intent.putExtra("year", iYear);
+                    intent.putExtra("month", iMonth);
+                    intent.putExtra("date", iDate);
+                    intent.putExtra("hour", iHour);
+                    intent.putExtra("min", iMin);
 
-                    int date = Integer.valueOf(String.valueOf(sDate.getItemAtPosition(positionDate[0])));
-                    int hour = Integer.valueOf(String.valueOf(sHour.getItemAtPosition(positionHour[0])));
-                    int min = Integer.valueOf(String.valueOf(sMin.getItemAtPosition(positionMin[0])));
-
-                    String time = String.format("%02d", year) + String.format("%02d", month) + String.format("%02d", date) + String.format("%02d", hour) + String.format("%02d", min);
-
-                    intent.putExtra("time", time);
-
-                    System.out.println(phone);
-                    System.out.println(time);
 
                     startActivity(intent);
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Now there is no parking spot is avaliable.", Toast.LENGTH_SHORT).show();
                 }
@@ -300,6 +370,46 @@ public class MainActivity extends AppCompatActivity {
         */
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        switch (keyCode) {
+            //하드웨어 뒤로가기 버튼에 따른 이벤트 설정
+            case KeyEvent.KEYCODE_BACK:
+
+             //   Toast.makeText(this, "Back Button is Pressed.", Toast.LENGTH_SHORT).show();
+
+                new AlertDialog.Builder(this)
+                      //  .setTitle("프로그램 종료")
+                        .setMessage("Do you want to exit?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // 프로세스 종료.
+                                android.os.Process.killProcess(android.os.Process.myPid());
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+
+                break;
+
+            default:
+                break;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
     private class HTTPRequestTest extends AsyncTask<Void,Void,String> {
 
         private String url = ResourceClass.server_ip + "/surepark_server/rev/available.do";
@@ -309,7 +419,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public HTTPRequestTest() {
-            System.out.println(6);
+
         }
 
 
@@ -325,7 +435,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            System.out.println(7);
+
             MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 
             HttpHeaders headers = new HttpHeaders();
@@ -343,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
             String result = restTemplate.postForObject(url, parameters, String.class);
 
             Log.d("TEST", result);
-            System.out.println(8);
+
             return result;
 
         }
@@ -355,7 +465,7 @@ public class MainActivity extends AppCompatActivity {
             dismissProgressDialog();
             */
             //String sMessage = etMessage.getText().toString();   //보내는 메세지 수신
-            System.out.println(9);
+
             //String[][] parsedData = jsonParserList(s);
             s = s.replace("null","");
             s = s.replace("(","[");
@@ -367,6 +477,8 @@ public class MainActivity extends AppCompatActivity {
 
             String avail = null;
             String total = null;
+            String publicK = null;
+
 
             try {
 
@@ -376,6 +488,33 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("TEST", jObject.getString("AVABILE_QTY"));
                 total = jObject.getString("TOTAL_QTY");
                 avail = jObject.getString("AVABILE_QTY");
+                /*
+                publicK = jObject.getString("PUBLIC_KEY");
+*/
+/*
+                byte[] keyBytes = new byte[0];
+                try {
+                    keyBytes = Base64.decode(publicK.getBytes("utf-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
+                KeyFactory keyFactory = null;
+                PublicKey key = null;
+                try {
+                    keyFactory = KeyFactory.getInstance("RSA");
+                    key = keyFactory.generatePublic(spec);
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (InvalidKeySpecException e) {
+                    e.printStackTrace();
+                }
+
+
+                // key = (Key) jObject.get("PUBLIC_KEY");
+                System.out.println("key : " + key);
+                */
+//                Log.d("TEST", key);
                 /*
                 for(int i=0; i < jarray.length(); i++){
                     JSONObject jObject = jarray.getJSONObject(i); // JSONObject 추출
@@ -395,17 +534,19 @@ public class MainActivity extends AppCompatActivity {
 
         //    Toast.makeText(getApplicationContext(), "Parsed Data : " + s, Toast.LENGTH_SHORT).show();
 
-            tvRecvData.setText(avail+"/"+total);
 
             String strRed = "#FF0000";
             String strGreen = "#00B050";
 
-            if(avail.equals("0")) {
-                tvRecvData.setTextColor(Color.parseColor(strRed));
-                next = 0;
-            } else {
-                tvRecvData.setTextColor(Color.parseColor(strGreen));
-                next = 1;
+            if (avail != null) {
+                tvRecvData.setText(avail+"/"+total);
+                if(avail.equals("0")) {
+                    tvRecvData.setTextColor(Color.parseColor(strRed));
+                    next = 0;
+                } else {
+                    tvRecvData.setTextColor(Color.parseColor(strGreen));
+                    next = 1;
+                }
             }
             //서버에서 받아온 정보를 text로 표시(남은 주차 칸 수)
             //tvRecvData.setText(identifier);

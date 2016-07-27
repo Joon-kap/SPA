@@ -1,8 +1,10 @@
 package com.cmu.ajou.spa;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +26,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,10 +37,14 @@ import java.util.List;
 public class Confirm_reservation extends AppCompatActivity {
 
     Button btnSend;
-    TextView tvRecvData_1;
-    TextView tvRecvData_2;
+    TextView textTime;
+
     String identifier = null;
+    String spot = null;
+    String phone = null;
     String time = null;
+    String card = null;
+
     //TextView ReservationTime;
     String LOG = "Confirm_reservation";
     String status = "wait";
@@ -45,14 +53,18 @@ public class Confirm_reservation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm_reservation);
 //
-        tvRecvData_1 = (TextView) findViewById(R.id.textAvailable_1);
+        textTime = (TextView) findViewById(R.id.textTime);
         //tvRecvData_2 = (TextView) findViewById(R.id.textAvailable_2);
 
         Intent intent = getIntent();
-        time = intent.getStringExtra("time");
         identifier = intent.getStringExtra("pIdentifier");
+        spot = intent.getStringExtra("pSpotNumber");
+        phone = intent.getStringExtra("phone");
+        time = intent.getStringExtra("time");
+        card = intent.getStringExtra("card");
 
-        Log.d(LOG, "time onCreate: " + time);
+        textTime.setText(time.substring(time.length() - 5, time.length()));
+
         Log.d(LOG, "identifier onCreate : " + identifier);
 
 
@@ -66,13 +78,48 @@ public class Confirm_reservation extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 //Intent intent = new Intent(getBaseContext(),Payment_process.class);
+
                 Log.d(LOG, "btn==================");
                 Log.d(LOG, "setOnClickListener identifier : " + identifier);
-               // Intent intent = new Intent(getBaseContext(),Parking_process.class);
-               // startActivity(intent);
-                new HTTPRequestTest().execute();
 
-                new CheckIdentifier().start();
+                Date now = new Date();
+                Calendar current = Calendar.getInstance();
+
+                current.setTime(now);
+
+                int cYear = current.get(Calendar.YEAR);
+                int cMonth = current.get(Calendar.MONTH)+1;
+                int cDate = current.get(Calendar.DATE);
+                int cHour = current.get(Calendar.HOUR_OF_DAY);
+                int cMin = current.get(Calendar.MINUTE);
+
+                String cu = String.format("%02d%02d%02d%02d%02d", cYear,cMonth,cDate,cHour,cMin);
+                time = time.replace(".", "");
+                time = time.replace(":", "");
+                time = time.replace(" ", "");
+                long ire = Long.parseLong(time);
+                long icu = Long.parseLong(cu);
+
+                if(ire <= icu) {
+
+
+                    // Intent intent = new Intent(getBaseContext(),Parking_process.class);
+                    // startActivity(intent);
+                    new HTTPRequestTest().execute();
+
+                    new CheckIdentifier().start();
+
+                } else {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(Confirm_reservation.this);
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.setMessage("Press the Open button after reservation time.");
+                    alert.show();
+                }
 
 
 
@@ -89,7 +136,13 @@ public class Confirm_reservation extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 */
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 
     private class CheckIdentifier extends Thread{
@@ -104,15 +157,26 @@ public class Confirm_reservation extends AppCompatActivity {
                     }
                     continue;
                 }
-                Log.d(LOG, "run status :" + status); //// 다음 페이지로 넘어가기 위해서 임시로 지운 부분
-/*                if(status.equals("FAIL")){
+                Log.d(LOG, "run status :" + status);
+                if(status.equals("FAIL")){
+
+                    Intent intent = new Intent(Confirm_reservation.this, EnterFailPopUpActivity.class);
+                    startActivity(intent);
                     Log.d(LOG, "====================run status :" + status);
 //                    Toast.makeText(getApplicationContext(), "Identification FAIL", Toast.LENGTH_SHORT).show();
-                }else{
-*/                    Intent intent = new Intent(Confirm_reservation.this, Parking_process.class);
+                }else if(status.equals("SUCCESS")) {
+                    Log.d(LOG, "====================run status :" + status);
+                    Intent intent = new Intent(Confirm_reservation.this, Parking_process.class);
                     intent.putExtra("pIdentifier", identifier);
+                    intent.putExtra("pSpotNumber", spot);
+                    intent.putExtra("phone",phone);
+                    intent.putExtra("time", time);
+                    intent.putExtra("card", card);
+
                     startActivity(intent);
-//                }
+                }
+
+                status = "wait";
 
                 break;
 
