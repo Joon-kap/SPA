@@ -37,6 +37,7 @@ import java.util.List;
 public class Confirm_reservation extends AppCompatActivity {
 
     Button btnSend;
+    Button btnCancel;
     TextView textTime;
 
     String identifier = null;
@@ -71,6 +72,30 @@ public class Confirm_reservation extends AppCompatActivity {
         btnSend = (Button)findViewById(R.id.gateOpenBtn);
         //ReservationTime = (EditText) findViewById(R.id.ReservationTime);
 
+        btnCancel = (Button)findViewById(R.id.btnCancel);
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(LOG, "btn===========");
+
+                new AlertDialog.Builder(Confirm_reservation.this)
+                        .setMessage("Do you want to cancel the reservation?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String url = ResourceClass.server_ip + "/surepark_server/rev/cancel.do";
+                                final HTTPRequestTest req = new HTTPRequestTest(url, identifier);
+                                req.execute();
+
+                                new CheckIdentifier().start();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            }
+        });
 
         btnSend.setOnClickListener(new View.OnClickListener() {
 
@@ -105,7 +130,9 @@ public class Confirm_reservation extends AppCompatActivity {
 
                     // Intent intent = new Intent(getBaseContext(),Parking_process.class);
                     // startActivity(intent);
+                    System.out.println("httpRe");
                     new HTTPRequestTest().execute();
+                    System.out.println("checkidenti");
 
                     new CheckIdentifier().start();
 
@@ -149,6 +176,7 @@ public class Confirm_reservation extends AppCompatActivity {
 
         public void run() {
             while(true){
+
                 if(status.equals("wait")){
                     try {
                         Thread.sleep(100);
@@ -163,7 +191,7 @@ public class Confirm_reservation extends AppCompatActivity {
                     Intent intent = new Intent(Confirm_reservation.this, EnterFailPopUpActivity.class);
                     startActivity(intent);
                     Log.d(LOG, "====================run status :" + status);
-//                    Toast.makeText(getApplicationContext(), "Identification FAIL", Toast.LENGTH_SHORT).show();
+
                 }else if(status.equals("SUCCESS")) {
                     Log.d(LOG, "====================run status :" + status);
                     Intent intent = new Intent(Confirm_reservation.this, Parking_process.class);
@@ -187,9 +215,17 @@ public class Confirm_reservation extends AppCompatActivity {
     private class HTTPRequestTest extends AsyncTask<Void,Void,String> {
 
         private String url = ResourceClass.server_ip + "/surepark_server/rev/identify.do";
+        private String identi = "";
 
         public HTTPRequestTest(String url) {
             this.url = url;
+        }
+
+        public HTTPRequestTest(String url, String identi) {
+
+            this.url = url;
+            this.identi = identi;
+
         }
 
         public HTTPRequestTest() {
@@ -271,6 +307,31 @@ public class Confirm_reservation extends AppCompatActivity {
 
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+
+            if (status.equals("CANCEL")) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(Confirm_reservation.this);
+                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(Confirm_reservation.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                alert.setMessage("Your Reservation is canceled.");
+                alert.show();
+
+            } else if (status.equals("CANCEL_FAIL")) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(Confirm_reservation.this);
+                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.setMessage("Your Reservation is not canceled.\nPlease try again.");
+                alert.show();
             }
 
 

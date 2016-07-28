@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +30,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.Set;
 
 import org.apache.http.params.HttpConnectionParams;
@@ -73,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView tvRecvData;
     TextView textPhoneNumber;
+    TextView tvGP;
 
     Spinner sDate;
     Spinner sHour;
@@ -254,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
         btnSend = (Button)findViewById(R.id.btnNext);
         tvRecvData = (TextView) findViewById(R.id.textAvailable);
         textPhoneNumber = (TextView) findViewById(R.id.textPhoneNumber);
+        tvGP = (TextView) findViewById(R.id.textGP);
 
     /*    TelephonyManager mTelephonyMgr;
         mTelephonyMgr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
@@ -264,6 +269,16 @@ public class MainActivity extends AppCompatActivity {
             textPhoneNumber.setText(number);
         }
 */
+
+        Random mRand;
+        mRand = new Random();
+        int random1 = mRand.nextInt(899);
+        int random2 = mRand.nextInt(999);
+        int random3 = mRand.nextInt(9999);
+
+        random1 = random1 + 100;
+
+        textPhoneNumber.setText(String.format("%03d - %03d - %04d",random1, random2, random3));
 
 
 
@@ -398,7 +413,10 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // 프로세스 종료.
-                                android.os.Process.killProcess(android.os.Process.myPid());
+                                //android.os.Process.killProcess(android.os.Process.myPid());
+                                ActivityCompat.finishAffinity(MainActivity.this);
+                                System.runFinalizersOnExit(true);
+                                System.exit(0);
                             }
                         })
                         .setNegativeButton("No", null)
@@ -479,6 +497,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("TEST", "test");
 
             String avail = null;
+            String gPeriod = null;
             String total = null;
             String publicK = null;
 
@@ -492,6 +511,7 @@ public class MainActivity extends AppCompatActivity {
                 total = jObject.getString("TOTAL_QTY");
                 avail = jObject.getString("AVABILE_QTY");
                 publicK = jObject.getString("PUBLIC_KEY");
+                gPeriod = jObject.getString("P_PERIOD_TIME");
 
 
                 try {
@@ -562,6 +582,14 @@ public class MainActivity extends AppCompatActivity {
                     next = 1;
                 }
             }
+
+            if(gPeriod != null) {
+                tvGP.setText(gPeriod);
+                tvGP.setTextColor(Color.parseColor(strRed));
+            }
+
+
+
             //서버에서 받아온 정보를 text로 표시(남은 주차 칸 수)
             //tvRecvData.setText(identifier);
 

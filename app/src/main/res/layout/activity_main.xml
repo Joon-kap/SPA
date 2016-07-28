@@ -27,91 +27,63 @@
         android:gravity="center">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="There Are "
-                    android:id="@+id/textThereAre"
-                    android:textAlignment="center"
-                    android:textColor="#4c4c49"
-                    android:textSize="@dimen/abc_text_size_medium_material" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="0/4"
-                    android:id="@+id/textAvailable"
-                    android:textAlignment="center"
-                    android:textColor="#00b050"
-                    android:textSize="@dimen/abc_text_size_medium_material"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text=" available Parking Spot."
-                    android:id="@+id/textParkingSpot"
-                    android:textAlignment="center"
-                    android:textColor="#4c4c49"
-                    android:textSize="@dimen/abc_text_size_medium_material" />
-            </LinearLayout>
+            android:layout_gravity="center_horizontal">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Are You Making a RESERVATION?"
+                android:text="There Are "
+                android:id="@+id/textThereAre"
+                android:textAlignment="center"
                 android:textColor="#4c4c49"
-                android:textAlignment="center"
                 android:textSize="@dimen/abc_text_size_medium_material" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textPlain1"
-                android:layout_gravity="center_horizontal" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:baselineAligned="false">
+                android:text="0/4"
+                android:id="@+id/textAvailable"
+                android:textAlignment="center"
+                android:textColor="#00b050"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:textStyle="bold" />
 
             <TextView
-                android:layout_width="250dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="123-456-7890"
-                android:id="@+id/textPhoneNumber"
-                android:textColor="#a39d95"
-                android:layout_gravity="center_vertical"
+                android:text=" available Parking Spot."
+                android:id="@+id/textParkingSpot"
                 android:textAlignment="center"
+                android:textColor="#4c4c49"
                 android:textSize="@dimen/abc_text_size_medium_material" />
-
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Are You Making a RESERVATION?"
+            android:textColor="#4c4c49"
+            android:textAlignment="center"
+            android:textSize="@dimen/abc_text_size_medium_material" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:id="@+id/textPlain1"
+            android:layout_gravity="center_horizontal" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
-
-        </LinearLayout>
+            android:text="123-456-7890"
+            android:id="@+id/textPhoneNumber"
+            android:textColor="#a39d95"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textSize="@dimen/abc_text_size_medium_material" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -133,7 +105,7 @@
             android:layout_height="wrap_content">
 
             <Spinner
-                android:layout_width="125dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/select_date_spinner"
                 android:layout_gravity="center_horizontal"
@@ -141,7 +113,7 @@
                 android:entries="@array/select_time"/>
 
             <Spinner
-                android:layout_width="125dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/select_hour_spinner"
                 android:layout_gravity="center_horizontal"
@@ -149,13 +121,54 @@
                 android:entries="@array/select_time"/>
 
             <Spinner
-                android:layout_width="125dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/select_min_spinner"
                 android:layout_gravity="center_horizontal"
                 android:spinnerMode="dropdown"
                 android:entries="@array/select_time"/>
+
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView7" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView8"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:textColor="#4c4c49"
+                android:text="If you will arive after " />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textGP"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:textColor="#4c4c49"
+                android:text="0" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView9"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:textColor="#4c4c49"
+                android:text=" minuutes," />
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView10"
+            android:textSize="@dimen/abc_text_size_medium_material"
+            android:textColor="#4c4c49"
+            android:text="the reservation will be cancled." />
 
     </LinearLayout>
 
