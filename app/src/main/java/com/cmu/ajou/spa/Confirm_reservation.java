@@ -336,7 +336,7 @@ public class Confirm_reservation extends AppCompatActivity {
 
 
             //Test
-            Toast.makeText(getApplicationContext(), "identify : " + status, Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(getApplicationContext(), "identify : " + status, Toast.LENGTH_SHORT).show();
 
            // tvRecvData_1.setText(address_2);
             //tvRecvData_2.setText(address_4);

@@ -235,7 +235,7 @@ public class Payment_process extends AppCompatActivity {
 
 
             //Test
-            Toast.makeText(getApplicationContext(), "stauts : " + status, Toast.LENGTH_SHORT).show();
+        //    Toast.makeText(getApplicationContext(), "stauts : " + status, Toast.LENGTH_SHORT).show();
 
 
             //tvRecvData_1.setText(address_2);

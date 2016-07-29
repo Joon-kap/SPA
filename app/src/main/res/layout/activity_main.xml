@@ -160,7 +160,7 @@
                 android:id="@+id/textView9"
                 android:textSize="@dimen/abc_text_size_medium_material"
                 android:textColor="#4c4c49"
-                android:text=" minuutes," />
+                android:text=" minutes," />
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"

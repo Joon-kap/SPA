@@ -226,8 +226,8 @@ public class Parking_process extends AppCompatActivity {
             // attempt = address_5;
             //Test
 
-            Toast.makeText(getApplicationContext(), "pPresentParkinglotStatus Data : " + spotNum, Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(), "pServationTime Data : " + enterTime, Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(getApplicationContext(), "pPresentParkinglotStatus Data : " + spotNum, Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(getApplicationContext(), "pServationTime Data : " + enterTime, Toast.LENGTH_SHORT).show();
             /*
             Toast.makeText(getApplicationContext(), "pEnterTime Data : " + address_3, Toast.LENGTH_SHORT).show();
             Toast.makeText(getApplicationContext(), "pSpotNumber Data : " + address_4, Toast.LENGTH_SHORT).show();

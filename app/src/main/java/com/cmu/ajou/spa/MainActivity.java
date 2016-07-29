@@ -270,13 +270,22 @@ public class MainActivity extends AppCompatActivity {
         }
 */
 
-        Random mRand;
+    /*    Random mRand;
         mRand = new Random();
         int random1 = mRand.nextInt(899);
         int random2 = mRand.nextInt(999);
         int random3 = mRand.nextInt(9999);
 
         random1 = random1 + 100;
+*/
+//        int random1 = 428;
+//        int random2 = 78;
+//        int random3 = 3402;
+
+        int random1 = 412;
+        int random2 = 892;
+        int random3 = 1878;
+
 
         textPhoneNumber.setText(String.format("%03d - %03d - %04d",random1, random2, random3));
 
